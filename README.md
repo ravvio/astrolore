@@ -13,9 +13,9 @@ full-text search.
 
 ## Getting Started
 
-```
-git clone https://github.com/ravvio
-cd
+```sh
+git clone https://github.com/ravvio/astrolore
+cd astrolore
 pnpm install
 pnpm dev
 ```
