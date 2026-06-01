@@ -11,6 +11,7 @@
         LibraryBigIcon,
         StickyNoteIcon,
         NewspaperIcon,
+        TimelineIcon,
     } from "@lucide/svelte";
     import { navigate } from "astro:transitions/client";
     import { Button } from "$lib/components/ui/button/index.js";
@@ -21,6 +22,8 @@
     let open = $state(false);
 
     function handleKeydown(e: KeyboardEvent) {
+        if (!project) return;
+
         if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
             e.preventDefault();
             open = !open;
@@ -39,6 +42,7 @@
         counts: {
             articles: number;
             maps: number;
+            timelines: number;
             documents: number;
             handouts: number;
         };
@@ -63,42 +67,44 @@
 
 <svelte:document onkeydown={handleKeydown} />
 
-<Command.Dialog bind:open>
-    <Command.Input placeholder={translations.search.placeholder} />
-    <Command.List>
-        <Command.Empty>{translations.search.noResults}</Command.Empty>
-        <Command.Group heading={translations.search.categories}>
-            {#each categories as category (category.id)}
-                <Command.Item
-                    value={category.id}
-                    onSelect={() => handleSelect(category.id)}
-                >
-                    {category.label}
-                </Command.Item>
-            {/each}
-        </Command.Group>
-        <Command.Group heading={translations.search.articles}>
-            {#each articles as article (article.id)}
-                <Command.Item
-                    value={slugFromId(article.id)}
-                    onSelect={() => handleSelect(article.id)}
-                >
-                    {article.label}
-                </Command.Item>
-            {/each}
-        </Command.Group>
-        <Command.Group heading={translations.search.documents}>
-            {#each documents as document (document.id)}
-                <Command.Item
-                    value={document.id}
-                    onSelect={() => handleSelect(document.id)}
-                >
-                    {document.label}
-                </Command.Item>
-            {/each}
-        </Command.Group>
-    </Command.List>
-</Command.Dialog>
+{#if project}
+    <Command.Dialog bind:open>
+        <Command.Input placeholder={translations.search.placeholder} />
+        <Command.List>
+            <Command.Empty>{translations.search.noResults}</Command.Empty>
+            <Command.Group heading={translations.search.categories}>
+                {#each categories as category (category.id)}
+                    <Command.Item
+                        value={category.id}
+                        onSelect={() => handleSelect(category.id)}
+                    >
+                        {category.label}
+                    </Command.Item>
+                {/each}
+            </Command.Group>
+            <Command.Group heading={translations.search.articles}>
+                {#each articles as article (article.id)}
+                    <Command.Item
+                        value={slugFromId(article.id)}
+                        onSelect={() => handleSelect(article.id)}
+                    >
+                        {article.label}
+                    </Command.Item>
+                {/each}
+            </Command.Group>
+            <Command.Group heading={translations.search.documents}>
+                {#each documents as document (document.id)}
+                    <Command.Item
+                        value={document.id}
+                        onSelect={() => handleSelect(document.id)}
+                    >
+                        {document.label}
+                    </Command.Item>
+                {/each}
+            </Command.Group>
+        </Command.List>
+    </Command.Dialog>
+{/if}
 
 <Sidebar.Root id="sidebar">
     <Sidebar.Header>
@@ -206,6 +212,24 @@
                                         >
                                             <MapIcon />
                                             {translations.common.maps}
+                                        </a>
+                                    {/snippet}
+                                </Sidebar.MenuButton>
+                            </Sidebar.MenuItem>
+                        {/if}
+
+                        {#if counts.timelines}
+                            <Sidebar.MenuItem>
+                                <Sidebar.MenuButton
+                                    isActive={section === "timelines" && !slug}
+                                >
+                                    {#snippet child({ props })}
+                                        <a
+                                            href={`/${project.id}/timelines`}
+                                            {...props}
+                                        >
+                                            <TimelineIcon />
+                                            {translations.common.timelines}
                                         </a>
                                     {/snippet}
                                 </Sidebar.MenuButton>

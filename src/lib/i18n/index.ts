@@ -8,5 +8,5 @@ export type { Translations } from "./types";
 const locales: Record<LanguageCode, Translations> = { en, it };
 
 export function getTranslations(lang?: string): Translations {
-  return locales[(lang as LanguageCode) ?? "en"] ?? locales.en;
+    return locales[(lang as LanguageCode) ?? "en"] ?? locales.en;
 }

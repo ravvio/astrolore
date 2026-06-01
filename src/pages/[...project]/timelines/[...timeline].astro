@@ -1,0 +1,78 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import { slugFromId, projectFromId, type Crumb } from "$lib/content-utils";
+import { getTimelineEvents } from "$lib/astro-content-utils";
+import ContentLayout from "../../../layouts/ContentLayout.astro";
+import ContentHeading from "$lib/components/ContentHeading.astro";
+import { getTranslations } from "$lib/i18n";
+import Timeline from "$lib/components/Timeline.astro";
+import PaginatedArticles from "$lib/components/paginated-articles.svelte";
+import * as Card from "$lib/components/ui/card/index.js";
+
+export async function getStaticPaths() {
+    const timelines = await getCollection("timelines");
+
+    return Promise.all(
+        timelines.map(async (timeline) => {
+            const projectId = projectFromId(timeline.id);
+            const timelineSlug = slugFromId(timeline.id);
+
+            const project = await getEntry("projects", projectId);
+            if (!project) throw `No project found for id ${projectId}`;
+
+            return {
+                params: {
+                    project: projectId,
+                    timeline: timelineSlug,
+                },
+                props: {
+                    project: project,
+                    timeline: timeline,
+                },
+            };
+        }),
+    );
+}
+
+const { project, timeline } = Astro.props;
+const slug = slugFromId(timeline.id);
+
+const events = await getTimelineEvents(project.id, slug);
+
+const translations = getTranslations(project.data.language);
+const crumbs: Crumb[] = [
+    {
+        label: project.data.title,
+        href: `/${project.id}`,
+    },
+    {
+        label: translations.common.timelines,
+        href: `/${project.id}/timelines`,
+    },
+    {
+        label: timeline.data.name ?? translations.common.timeline,
+        href: `/${timeline.id}`,
+    },
+];
+---
+
+<ContentLayout
+    project={project}
+    title={`${project.data.title} - Timelines`}
+    {crumbs}
+>
+    {
+        timeline.data.name && (
+            <ContentHeading slot="heading" id={slug}>
+                {timeline.data.name}
+                <span slot="data">{timeline.data.description}</span>
+            </ContentHeading>
+        )
+    }
+
+    <Card.Root>
+        <Card.Content>
+            <Timeline {events} />
+        </Card.Content>
+    </Card.Root>
+</ContentLayout>

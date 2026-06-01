@@ -8,14 +8,15 @@ articles, interactive maps, documents, handouts, custom calendars, and
 full-text search.
 
 ## Prerequisites
+
 - Node.js >= 24.16.0
 - pnpm
 
 ## Getting Started
 
-```sh
-git clone https://github.com/ravvio/astrolore
-cd astrolore
+```
+git clone https://github.com/ravvio
+cd
 pnpm install
 pnpm dev
 ```
@@ -34,6 +35,7 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm astro -- --help` | Get help using the Astro CLI                     |
 
 ## Deployment
+
 The output is fully static. After `pnpm build`, serve `./dist/` with any static
 host (Netlify, Vercel, GitHub Pages, Cloudflare Pages, nginx).
 
@@ -52,10 +54,10 @@ file inside `src/content` to contain your project metadata:
 
 ```json
 {
-  "title": "My World",
-  "language": "en",
-  "description": "A short description shown on the homepage.",
-  "pinned": ["john-smith", "new-city"]
+    "title": "My World",
+    "language": "en",
+    "description": "A short description shown on the homepage.",
+    "pinned": ["john-smith", "new-city"]
 }
 ```
 
@@ -72,7 +74,8 @@ src/content/
     ├── categories/
     ├── documents/
     ├── handouts/
-    └── maps/
+    ├── maps/
+    └── timelines/
 ```
 
 The `<your-world>.json` file and the directory `<your-world>` **must** be
@@ -83,6 +86,7 @@ All content (other than the project metadata) follows the naming convention
 inside the project and are made using the slug.
 
 ### Custom Calendar
+
 Add a `calendar` object to your project JSON to define an in-world calendar.
 Dates in article frontmatter and `:date[]` directives will render using it.
 
@@ -112,7 +116,6 @@ Dates in article frontmatter and `:date[]` directives will render using it.
 `splits.pre` / `splits.post` define the epoch labels around year 0 (analogous
 to BC/AD).
 
-
 ## Authoring Content
 
 ### Articles
@@ -139,20 +142,21 @@ The **Great War** ...
 ```yaml
 ---
 title: "The Great War"
-aliases: [great-war, war-of-fires]    # alternative slugs for cross-links
+aliases: [great-war, war-of-fires] # alternative slugs for cross-links
 tags: [war, history]
-parent: age-of-conflict               # parent article slug (creates hierarchy)
-category: history                     # category slug
+parent: age-of-conflict # parent article slug (creates hierarchy)
+category: history # category slug
 meta:
-  type: historic                      # type of article
-  kind: conflict                      # kind of historic event
-  image: ./images/great-war.jpeg      # path to a local image or a remote url
-  date: "3/15/412"                    # in-world date (day/month/year)
-  timelines: [my-timeline]            # array of timelines the event is part of
+    type: historic # type of article
+    kind: conflict # kind of historic event
+    image: ./images/great-war.jpeg # path to a local image or a remote url
+    date: "3/15/412" # in-world date (day/month/year)
+    timelines: [my-timeline] # array of timelines the event is part of
 ---
 ```
 
 #### Meta Types (and Kinds)
+
 The `meta` block requires a `type` field, this determines the other available
 fields in the block.
 
@@ -169,7 +173,7 @@ fields (like `capital`).
     - `birth`, `death` (in-world dates)
     - `bornIn`, `diedIn`
     - `creature`
-    - `kind`:  `divinity`
+    - `kind`: `divinity`
 - `location`
     - `image`
     - `parentLocation`
@@ -268,6 +272,7 @@ Embeds an interactive Leaflet map. The `map-slug` references an entry in the
 maps collection.
 
 ### Categories
+
 Categories group articles. MDX files in `categories/`:
 
 ```
@@ -285,6 +290,7 @@ title: "History"
 Reference a category from an article with `category: history` in frontmatter.
 
 ### Documents
+
 Documents are in-world prose documents (letters, texts, lore books). MDX files in `documents/`:
 
 ```
@@ -302,6 +308,7 @@ title: "The Treaty of Ash"
 ```
 
 ### Handouts
+
 Handouts are player-facing files (PDFs, images). JSON files in `handouts/`:
 
 ```
@@ -320,8 +327,8 @@ src/content/my-world/handouts/sealed-letter.json
 
 Place the referenced file alongside the JSON.
 
-
 ### Maps
+
 Interactive Leaflet maps. JSON files in `maps/`:
 
 ```
@@ -330,8 +337,9 @@ src/content/my-world/handouts/sealed-letter.json
 
 ```json
 {
-  "name": "World Map",
-  "caption": "The known world, circa 400 AR",                             # Caption to display under the map
+  "name": "World Map (400 AR)",
+  "description": "A Map of the World drawn by Jhon Smith",
+  "caption": "The known world, circa 400 AR",                             # Caption to display under the embedded map
   "image": "./world-map.jpg",                                             # Relative path to the map image or remote URL
   "markers": [
     { "x": 540, "y": 320, "label": "The Capital", "link": "the-capital" }
@@ -341,3 +349,22 @@ src/content/my-world/handouts/sealed-letter.json
 
 Markers display pins on the map (`x` / `y` are pixel coordinates), and can be
 used to reference articles (`link` is an article slug).
+
+### Timelines
+
+Standalone timelines for important sequences of events. Work like embedded
+timelines, where the slug used is the filename. JSON files in `timelines/`:
+
+```
+src/content/my-world/timelines/world-histoy.json
+```
+
+```json
+{
+    "name": "History of the World",
+    "description": "The most important events of the World"
+}
+```
+
+This will show all historic articles that include `world-history` in
+the `timelines` metadata array.

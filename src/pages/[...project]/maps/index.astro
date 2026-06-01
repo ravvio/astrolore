@@ -6,16 +6,16 @@ import { projectFromId, type Crumb } from "$lib/content-utils";
 import { getTranslations } from "$lib/i18n";
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
+    const projects = await getCollection("projects");
 
-  return projects.map((project) => ({
-    params: {
-      project: project.id,
-    },
-    props: {
-      project: project,
-    },
-  }));
+    return projects.map((project) => ({
+        params: {
+            project: project.id,
+        },
+        props: {
+            project: project,
+        },
+    }));
 }
 
 const { project } = Astro.props;
@@ -25,15 +25,22 @@ const maps = await getCollection("maps", (m) => {
 });
 
 const translations = getTranslations(project.data.language);
-const crumbs: Crumb[] = [{
-    label: project.data.title,
-    href: `/${project.id}`
-}, {
-    label: translations.common.maps,
-    href: `/${project.id}/maps`
-}]
+const crumbs: Crumb[] = [
+    {
+        label: project.data.title,
+        href: `/${project.id}`,
+    },
+    {
+        label: translations.common.maps,
+        href: `/${project.id}/maps`,
+    },
+];
 ---
 
 <Layout title={`${project.data.title} - Maps`} {crumbs} {project}>
-    <PaginatedMapsSearch {maps} placeholder={translations.common.search} client:idle />
+    <PaginatedMapsSearch
+        {maps}
+        placeholder={translations.common.search}
+        client:idle
+    />
 </Layout>

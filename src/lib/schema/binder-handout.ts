@@ -1,11 +1,6 @@
 import { z } from "astro/zod";
 
-const HandoutKind = z.enum([
-    'generic',
-    'guide',
-    'book',
-    'newspaper',
-]);
+const HandoutKind = z.enum(["generic", "guide", "book", "newspaper"]);
 export type HandoutKind = z.infer<typeof HandoutKind>;
 
 export const HandoutData = z.object({

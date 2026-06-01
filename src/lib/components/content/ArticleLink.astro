@@ -4,7 +4,7 @@ import { getAbstract, getArticleFromSlug } from "$lib/astro-content-utils";
 import ArticleHoverCard from "$lib/components/article-hover-card.svelte";
 
 type Props = {
-  href: string;
+    href: string;
 };
 const { href } = Astro.props;
 
@@ -14,11 +14,11 @@ const abstract = await getAbstract(article);
 ---
 
 <ArticleHoverCard {article} {abstract} client:only>
-  <Badge
-    variant="outline"
-    class="text-sm"
-    href={article ? `/${article.id}` : undefined}
-  >
-    <slot />
-  </Badge>
+    <Badge
+        variant="outline"
+        class="text-sm"
+        href={article ? `/${article.id}` : undefined}
+    >
+        <slot />
+    </Badge>
 </ArticleHoverCard>

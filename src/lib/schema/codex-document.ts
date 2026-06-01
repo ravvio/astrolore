@@ -1,15 +1,11 @@
 import { z } from "astro/zod";
 
-const DocumentType = z.enum([
-  'generic',
-  'diary',
-  'letter',
-]);
+const DocumentType = z.enum(["generic", "diary", "letter"]);
 
 export const DocumentFrontmatter = z.object({
-  kind: DocumentType.default('generic'),
-  title: z.string(),
-  description: z.string().optional(),
-  author: z.string().optional(),
+    kind: DocumentType.default("generic"),
+    title: z.string(),
+    description: z.string().optional(),
+    author: z.string().optional(),
 });
 export type DocumentFrontmatter = z.infer<typeof DocumentFrontmatter>;

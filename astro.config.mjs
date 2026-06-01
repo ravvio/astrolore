@@ -15,29 +15,27 @@ import { rehypeHeadingIds, unified } from "@astrojs/markdown-remark";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "static",
-  integrations: [svelte(), mdx()],
+    output: "static",
+    integrations: [svelte(), mdx()],
 
-  markdown: {
-    processor: unified({
-      remarkPlugins: [
-        remarkGfm,
-        remarkDirective,
-        // Custom
-        remarkGoto,
-        remarkAbstract,
-        remarkAbstractOf,
-        remarkDate,
-        remarkTimeline,
-        remarkMapImage,
-      ],
-      rehypePlugins: [
-        rehypeHeadingIds,
-      ],
-    }),
-  },
+    markdown: {
+        processor: unified({
+            remarkPlugins: [
+                remarkGfm,
+                remarkDirective,
+                // Custom
+                remarkGoto,
+                remarkAbstract,
+                remarkAbstractOf,
+                remarkDate,
+                remarkTimeline,
+                remarkMapImage,
+            ],
+            rehypePlugins: [rehypeHeadingIds],
+        }),
+    },
 
-  vite: {
-    plugins: [tailwindcss()],
-  },
+    vite: {
+        plugins: [tailwindcss()],
+    },
 });

@@ -5,10 +5,10 @@ export const LanguageCode = z.enum(["en", "it"]);
 export type LanguageCode = z.infer<typeof LanguageCode>;
 
 export const ProjectFrontmatter = z.object({
-  title: z.string(),
-  language: LanguageCode.default("en"),
-  description: z.string().optional(),
-  pinned: z.string().array().optional(),
-  calendar: CustomCalendar.optional(),
+    title: z.string(),
+    language: LanguageCode.default("en"),
+    description: z.string().optional(),
+    pinned: z.string().array().optional(),
+    calendar: CustomCalendar.optional(),
 });
 export type ProjectFrontmatter = z.infer<typeof ProjectFrontmatter>;

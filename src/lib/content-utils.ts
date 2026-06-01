@@ -3,9 +3,9 @@
  * client-side components.
  */
 export type CollectionItem = {
-  id: string,
-  label: string,
-}
+    id: string;
+    label: string;
+};
 
 /**
  * Reperesentation of a path section
@@ -24,8 +24,8 @@ export type Crumb = {
  * ```
  */
 export function slugFromId(id: string): string {
-  const [_p, _s, ...rest] = id.split("/");
-  return rest.join("/");
+    const [_p, _s, ...rest] = id.split("/");
+    return rest.join("/");
 }
 
 /**
@@ -37,9 +37,9 @@ export function slugFromId(id: string): string {
  * ```
  */
 export function projectFromId(id: string): string {
-  const p = id.split("/").at(0);
-  if (!p) throw `Id ${id} does not contain project id`;
-  return p;
+    const p = id.split("/").at(0);
+    if (!p) throw `Id ${id} does not contain project id`;
+    return p;
 }
 
 /**
@@ -50,12 +50,12 @@ export function projectFromId(id: string): string {
  * ```
  */
 export function isURL(value: string) {
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
+    try {
+        new URL(value);
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 /**
@@ -67,7 +67,7 @@ export function isURL(value: string) {
  * ```
  */
 export function isLink(value: string): boolean {
-  return value.startsWith("(") && value.endsWith(")");
+    return value.startsWith("(") && value.endsWith(")");
 }
 
 /**
@@ -77,5 +77,20 @@ export function isLink(value: string): boolean {
  * ```
  */
 export function stripLink(value: string): string {
-  return value.substring(1, value.length - 1);
+    return value.substring(1, value.length - 1);
+}
+
+/**
+ * Gets the image src for values that can be both remote urls and
+ * local images.
+ * ```
+ * const src = getImageSrc(entry.data.image);
+ * ```
+ */
+export function getImageSrc(image: string | { src: string }): string {
+    if (typeof image === "string") {
+        return image;
+    } else {
+        return image.src;
+    }
 }

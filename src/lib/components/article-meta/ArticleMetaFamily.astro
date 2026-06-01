@@ -6,18 +6,24 @@ import type { Translations } from "$lib/i18n";
 import MetaCard from "./MetaCard.astro";
 
 type Props = {
-  project: CollectionEntry<"projects">;
-  articles: CollectionEntry<"articles">[];
-  meta: FamilyMetadata;
-  translations: Translations;
+    project: CollectionEntry<"projects">;
+    articles: CollectionEntry<"articles">[];
+    meta: FamilyMetadata;
+    translations: Translations;
 };
 const { project, articles, meta, translations }: Props = Astro.props;
 const m = translations.meta.family;
 
 const properties: MetaProperty[] = [
-  { type: "image", title: m.emblem, value: meta.emblem },
-  { type: "text",  title: m.head,   value: meta.head },
+    { type: "image", title: m.emblem, value: meta.emblem },
+    { type: "text", title: m.head, value: meta.head },
 ];
 ---
 
-<MetaCard typeLabel={translations.meta.types.family} kind={undefined} {project} {articles} {properties} />
+<MetaCard
+    typeLabel={translations.meta.types.family}
+    kind={undefined}
+    {project}
+    {articles}
+    {properties}
+/>

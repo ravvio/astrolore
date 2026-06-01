@@ -9,6 +9,8 @@ export interface Translations {
         articles: string;
         map: string;
         maps: string;
+        timeline: string;
+        timelines: string;
         document: string;
         documents: string;
         handout: string;
@@ -43,12 +45,47 @@ export interface Translations {
         };
         kinds: {
             character: { divinity: string };
-            creature: { aberration: string; celestial: string; construct: string; fae: string; humanoid: string };
-            location: { cosmic: string; continent: string; region: string; landmark: string; settlement: string; temple: string; ocean: string; sea: string; lake: string; river: string; forest: string; };
-            historic: { generic: string; celestial: string; natural: string; settlement: string; political: string; conflict: string };
-            language: { major: string; regional: string; secret: string; dead: string };
+            creature: {
+                aberration: string;
+                celestial: string;
+                construct: string;
+                fae: string;
+                humanoid: string;
+            };
+            location: {
+                cosmic: string;
+                continent: string;
+                region: string;
+                landmark: string;
+                settlement: string;
+                temple: string;
+                ocean: string;
+                sea: string;
+                lake: string;
+                river: string;
+                forest: string;
+            };
+            historic: {
+                generic: string;
+                celestial: string;
+                natural: string;
+                settlement: string;
+                political: string;
+                conflict: string;
+            };
+            language: {
+                major: string;
+                regional: string;
+                secret: string;
+                dead: string;
+            };
             organization: { country: string };
-            culture: { urban: string; rural: string; nomadic: string; primitive: string };
+            culture: {
+                urban: string;
+                rural: string;
+                nomadic: string;
+                primitive: string;
+            };
         };
         character: {
             portrait: string;

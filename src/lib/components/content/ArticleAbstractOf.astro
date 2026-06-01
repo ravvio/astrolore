@@ -5,11 +5,14 @@ import ArticleGoto from "./ArticleGoto.astro";
 import { getEntry } from "astro:content";
 
 type Props = {
-  slug: string;
+    slug: string;
 };
 
 const projectId = Astro.url.pathname.split("/").at(1);
-if (!projectId) throw new Error(`ArticleAbstractOf: no project segment in pathname "${Astro.url.pathname}"`);
+if (!projectId)
+    throw new Error(
+        `ArticleAbstractOf: no project segment in pathname "${Astro.url.pathname}"`,
+    );
 const { slug } = Astro.props;
 
 const id = `${projectId}/articles/${slug}`;
@@ -19,5 +22,5 @@ const abstract = await getAbstract(article);
 
 {abstract && <ArticleGoto slug={slug} />}
 <ArticleParagraph>
-  {abstract ?? ""}
+    {abstract ?? ""}
 </ArticleParagraph>

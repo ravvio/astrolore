@@ -15,7 +15,8 @@ type Props = {
     articles: CollectionEntry<"articles">[];
     properties: MetaProperty[];
 };
-const { typeLabel, kindLabel, project, articles, properties }: Props = Astro.props;
+const { typeLabel, kindLabel, project, articles, properties }: Props =
+    Astro.props;
 
 const title = kindLabel ? `${typeLabel} (${kindLabel})` : typeLabel;
 

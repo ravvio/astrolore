@@ -16,6 +16,7 @@
         counts: {
             articles: number;
             maps: number;
+            timelines: number;
             documents: number;
             handouts: number;
         };

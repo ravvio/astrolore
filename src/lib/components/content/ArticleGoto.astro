@@ -6,7 +6,7 @@ import { getAbstract } from "$lib/astro-content-utils";
 import { CornerDownRightIcon } from "@lucide/svelte";
 
 type Props = {
-  slug: string;
+    slug: string;
 };
 const projectId = Astro.url.pathname.split("/")[1];
 const { slug } = Astro.props;
@@ -17,8 +17,8 @@ const abstract = await getAbstract(article);
 ---
 
 <ArticleHoverCard {article} {abstract} client:only>
-  <Button variant="link" href={`/${id}`}>
-    <CornerDownRightIcon />
-    {article ? article.data.title : slug}
-  </Button>
+    <Button variant="link" href={`/${id}`}>
+        <CornerDownRightIcon />
+        {article ? article.data.title : slug}
+    </Button>
 </ArticleHoverCard>
