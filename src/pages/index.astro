@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { type Crumb } from "$lib/content-utils";
+
+const crumbs: Crumb[] = [{
+    label: "Lore",
+    href: "/",
+}];
+---
+
+<Layout title="Lore" crumbs={crumbs} />

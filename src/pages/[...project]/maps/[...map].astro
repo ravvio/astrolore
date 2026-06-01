@@ -1,0 +1,67 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import { slugFromId, projectFromId, type Crumb } from "$lib/content-utils";
+import MapImage from "$lib/components/map-image/map-image.svelte";
+import ContentLayout from "../../../layouts/ContentLayout.astro";
+import ContentHeading from "$lib/components/ContentHeading.astro";
+import { getTranslations } from "$lib/i18n";
+
+export async function getStaticPaths() {
+    const maps = await getCollection("maps");
+
+    return Promise.all(maps.map(async (map) => {
+        const projectId = projectFromId(map.id);
+        const mapSlug = slugFromId(map.id);
+
+        const project = await getEntry("projects", projectId);
+        if (!project) throw `No project found for id ${projectId}`;
+
+        return {
+            params: {
+                project: projectId,
+                map: mapSlug,
+            },
+            props: {
+                project: project,
+                map: map,
+            },
+        };
+    }));
+}
+
+const { project, map } = Astro.props;
+const slug = slugFromId(map.id);
+
+const translations = getTranslations(project.data.language);
+const crumbs: Crumb[] = [
+    {
+        label: project.data.title,
+        href: `/${project.id}`,
+    },
+    {
+        label: translations.common.maps,
+        href: `/${project.id}/maps`,
+    },
+    {
+        label: map.data.name ?? translations.common.map,
+        href: `/${map.id}`,
+    },
+];
+---
+
+<ContentLayout project={project} title={`${project.data.title} - Maps`} {crumbs} needsLeaflet>
+    {
+        map.data.caption && (
+            <ContentHeading slot="heading" id={slug}>
+                {map.data.caption}
+            </ContentHeading>
+        )
+    }
+
+    <MapImage
+        projectId={project.id}
+        id={slug}
+        src={map.data.image.src}
+        markers={JSON.stringify(map.data.markers)}
+    />
+</ContentLayout>

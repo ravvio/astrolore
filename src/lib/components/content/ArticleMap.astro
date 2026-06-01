@@ -1,0 +1,45 @@
+---
+import MapImage from "$lib/components/map-image/map-image.svelte";
+import { cn } from "$lib/utils";
+import { getEntry } from "astro:content";
+
+type Props = {
+  class: string;
+  slug: string;
+};
+const { class: className, slug } = Astro.props;
+const projectId = Astro.url.pathname.split("/")[1];
+
+const mapId = `${projectId}/maps/${slug}`;
+const map = await getEntry("maps", mapId);
+
+let src: string = "";
+if (typeof map.data.image === "string") {
+    src = map.data.image;
+} else {
+    src = map.data.image.src;
+}
+
+---
+
+{
+  map?.data.image && (
+    <div
+      class={cn(
+      "flex flex-col rounded-md min-w-full lg:min-w-3/5 float-right lg:max-w-3/5 p-2 ml-2 my-2 space-y-1 bg-background z-10",
+        className,
+      )}
+    >
+      <MapImage
+        projectId={projectId}
+        id={slug}
+        class="rounded-md"
+        src={map.data.image.src}
+        markers={JSON.stringify(map.data.markers)}
+      />
+      {map.data.caption != "" && (
+        <span class="text-muted-foreground italic text-sm">{map.data.caption}</span>
+      )}
+    </div>
+  )
+}

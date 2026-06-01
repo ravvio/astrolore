@@ -1,0 +1,99 @@
+---
+import { projectFromId } from "$lib/content-utils";
+import { CustomDate } from "$lib/custom-date";
+import { getEntry, getCollection } from "astro:content";
+import EventKindIcon from "$lib/components/event-kind-icon.svelte";
+import { getAbstract } from "$lib/astro-content-utils";
+import * as Card from "$lib/components/ui/card/index.js";
+
+async function getTimelineEvents(projectId: string, timeline: string) {
+  const calendar = (await getEntry("projects", projectId))?.data.calendar;
+
+  const entries = await getCollection("articles", (article) => {
+    return projectId == projectFromId(article.id);
+  });
+
+  const events = entries.flatMap((entry) => {
+    if (
+      entry.data.meta?.type !== "historic" ||
+      !entry.data.meta?.timelines?.includes(timeline)
+    ) {
+      return [];
+    }
+    const meta = entry.data.meta;
+    if (!meta.date) return [];
+
+    const abstract = getAbstract(entry);
+
+    if (typeof meta.date === "string") {
+      const date = CustomDate.parse(calendar, meta.date);
+      return {
+        id: entry.id,
+        date,
+        dateString: date.toString(),
+        title: entry.data.title,
+        kind: meta.kind,
+        abstract,
+      };
+    } else {
+      const start = CustomDate.parse(calendar, meta.date.start);
+      const end = CustomDate.parse(calendar, meta.date.end);
+      return {
+        id: entry.id,
+        date: start,
+        dateString: `${start.toString()} - ${end.toString()}`,
+        title: entry.data.title,
+        kind: meta.kind,
+        abstract,
+      };
+    }
+  });
+  events.sort((a, b) => a.date.compare(b.date));
+  return events;
+}
+
+type Props = {
+  label: string;
+  timeline: string;
+};
+const projectId = Astro.url.pathname.split("/")[1];
+const { timeline } = Astro.props;
+
+const events = await getTimelineEvents(projectId, timeline);
+---
+
+<Card.Root class="w-full [&:not(:first-child)]:mt-4">
+  <Card.Content>
+    <div class="relative flex w-full flex-row rounded-lg p-2">
+      <div class="bg-accent absolute top-6 bottom-6 left-6 w-2 rounded-full">
+      </div>
+      <div class="z-10 flex w-full flex-col space-y-2">
+        {
+          events.map((event) => (
+            <a href={`/${event.id}`}>
+              <div class="group flex flex-row items-start space-x-4 p-1 pr-4 transition-all duration-300">
+                <div class="bg-accent flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all group-hover:translate-x-2">
+                  <EventKindIcon
+                    kind={event.kind}
+                    class="text-accent-foreground size-5"
+                  />
+                </div>
+                <div class="flex origin-top flex-col items-baseline">
+                  <span class="text-primary truncate overflow-hidden underline-offset-2 group-hover:underline">
+                    {event.title}
+                  </span>
+                  <span class="text-muted-foreground font-mono text-xs">
+                    {event.dateString}
+                  </span>
+                  <span class="text-muted-foreground text-xs">
+                    {event.abstract}
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </Card.Content>
+</Card.Root>

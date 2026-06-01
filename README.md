@@ -1,0 +1,343 @@
+# Astro Lore
+
+A static worldbuilding wiki built with Astro, Svelte 5, Tailwind CSS v4 and
+shadcn-svelte.
+
+Author your fictional worlds in markdown and get a fully navigable wiki with
+articles, interactive maps, documents, handouts, custom calendars, and
+full-text search.
+
+## Prerequisites
+- Node.js >= 24.16.0
+- pnpm
+
+## Getting Started
+
+```
+git clone https://github.com/ravvio
+cd
+pnpm install
+pnpm dev
+```
+
+## Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                | Action                                           |
+| :--------------------- | :----------------------------------------------- |
+| `pnpm install`         | Installs dependencies                            |
+| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
+| `pnpm build`           | Build your production wiki to `./dist/`          |
+| `pnpm preview`         | Preview your build locally, before deploying     |
+| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+
+## Deployment
+The output is fully static. After `pnpm build`, serve `./dist/` with any static
+host (Netlify, Vercel, GitHub Pages, Cloudflare Pages, nginx).
+
+Otherwise a `Dockerfile` and `nginx/nginx.conf` are included for self-hosted
+container deployments:
+
+```sh
+docker build -t my-wiki .
+docker run -p 8080:80 my-wiki
+```
+
+## Creating a World
+
+Each fictional world is a **project**. To add one, create a `<your-world>.json`
+file inside `src/content` to contain your project metadata:
+
+```json
+{
+  "title": "My World",
+  "language": "en",
+  "description": "A short description shown on the homepage.",
+  "pinned": ["john-smith", "new-city"]
+}
+```
+
+`language` accepts `"en"` or `"it"`. `pinned` lists article slugs to feature
+on the project's homepage.
+
+Then create the following directory structure (you can omit some if you don't
+need them):
+
+```
+src/content/
+└── <your-world>/
+    ├── articles/
+    ├── categories/
+    ├── documents/
+    ├── handouts/
+    └── maps/
+```
+
+The `<your-world>.json` file and the directory `<your-world>` **must** be
+named the same.
+
+All content (other than the project metadata) follows the naming convention
+`src/content/<project>/<collection>/<slug>`. References are always resolved
+inside the project and are made using the slug.
+
+### Custom Calendar
+Add a `calendar` object to your project JSON to define an in-world calendar.
+Dates in article frontmatter and `:date[]` directives will render using it.
+
+```json
+{
+  "title": "My World",
+  ...,
+  "calendar": {
+    "splits": {
+      "pre":  { "name": "Before", "short": "BF" },
+      "post": { "name": "After",  "short": "AF" }
+    },
+    "year": {
+      "months": [
+        { "name": "Firstmonth", "days": 30 },
+        { "name": "Secondmonth", "days": 30 }
+      ],
+      "seasons": [
+        { "name": "Winter", "start": "1/1" },
+        { "name": "Summer", "start": "2/1" }
+      ]
+    }
+  }
+}
+```
+
+`splits.pre` / `splits.post` define the epoch labels around year 0 (analogous
+to BC/AD).
+
+
+## Authoring Content
+
+### Articles
+
+Articles are the main content of your worlds encyclopedia. MDX files
+in `articles/`:
+
+```
+src/content/my-world/articles/the-great-war.mdx
+```
+
+**Minimal frontmatter:**
+
+```mdx
+---
+title: "The Great War"
+---
+
+The **Great War** ...
+```
+
+**Full frontmatter:**
+
+```yaml
+---
+title: "The Great War"
+aliases: [great-war, war-of-fires]    # alternative slugs for cross-links
+tags: [war, history]
+parent: age-of-conflict               # parent article slug (creates hierarchy)
+category: history                     # category slug
+meta:
+  type: historic                      # type of article
+  kind: conflict                      # kind of historic event
+  image: ./images/great-war.jpeg      # path to a local image or a remote url
+  date: "3/15/412"                    # in-world date (day/month/year)
+  timelines: [my-timeline]            # array of timelines the event is part of
+---
+```
+
+#### Meta Types (and Kinds)
+The `meta` block requires a `type` field, this determines the other available
+fields in the block.
+
+The `kind` field, is sometimes used to further extend the meta block, like in
+the case of `type: organization` where setting `kind: country` adds relevant
+fields (like `capital`).
+
+- `character`
+    - `image`
+    - `titles`, `epithets`
+    - `family`
+    - `cultures`
+    - `organizations`, `organizationsFormer`
+    - `birth`, `death` (in-world dates)
+    - `bornIn`, `diedIn`
+    - `creature`
+    - `kind`:  `divinity`
+- `location`
+    - `image`
+    - `parentLocation`
+    - `founders`
+    - `kind`: `cosmic` | `continent` | `region` | `landmark` | `temple` | `ocean` | `sea` | `lake` | `river` | `forest`
+        - `settlement`: adds `founders`, `founding`, `destruction`
+- `historic`
+    - `image`
+    - `timelines`
+    - `date` (in-world date or period object `{ start, end }`)
+    - `kind`: `generic` | `celestial` | `natural` | `settlement` | `political` | `conflict`
+- `organization`
+    - `symbol`
+    - `founders`, `leaders`, `formerLeaders`
+    - `founding`, `termination`
+    - `kind`:
+        - `country` adds `capital`, `cultures`, `languages`
+- `creature`
+    - `image`
+    - `parentCreature`
+    - `locations`
+    - `kind`: `aberration` | `celestial` | `construct` | `fae` | `humanoid`
+- `family`
+    - `emblem`
+    - `head`
+- `culture`
+    - `parentCulture`
+    - `kind`: `urban` | `rural` | `nomadic` | `primitive`
+- `language`
+    - `kind`: `major` | `regional` | `secret` | `dead`
+- `title`
+    - `relatedOrganization`
+
+String fields that reference other articles can use `(slug)` syntax to create a
+link (`family: (house-veran)`, in lists `organizations: [(the-white-rose),
+(the-black-rose)]`).
+
+Image fields (`image`, `symbol`, etc) can be paths to local images or remote
+URLs.
+
+Date fields are rendered as in-world dates if a calendar is defined for the
+projects and have the syntax (`<year>/<month>/<day>`).
+
+#### Cross-linking
+
+In MDX body text, link to other articles with standard markdown:
+
+```mdx
+The [Great War](the-great-war) began when ...
+```
+
+Slugs are resolved relative to the current project. Aliases defined in
+frontmatter also work as link targets.
+
+#### In-World Date
+
+```md
+:date[3/15/412]
+```
+
+Renders the date using the project's custom calendar (if defined), otherwise
+falls back to a plain display.
+
+#### Navigation Links
+
+```mdx
+::goto{#article-slug}
+```
+
+Renders a styled navigation link to another article.
+
+#### Embedded Abstract
+
+```md
+::abstractOf{#article-slug}
+```
+
+Embeds the first paragraph of another article as a pull-quote summary.
+
+#### Embedded Timeline
+
+```md
+::timeline[Label]{#timeline-slug}
+```
+
+Embeds a timeline component. The timeline slug corresponds to the `timelines`
+array in `historic` article meta.
+
+####
+
+```md
+::map{#map-slug}
+```
+
+Embeds an interactive Leaflet map. The `map-slug` references an entry in the
+maps collection.
+
+### Categories
+Categories group articles. MDX files in `categories/`:
+
+```
+src/content/my-world/categories/history.mdx
+```
+
+**Frontmatter:**
+
+```yaml
+---
+title: "History"
+---
+```
+
+Reference a category from an article with `category: history` in frontmatter.
+
+### Documents
+Documents are in-world prose documents (letters, texts, lore books). MDX files in `documents/`:
+
+```
+src/content/my-world/categories/history.mdx
+```
+
+**Frontmatter:**
+
+```yaml
+---
+title: "The Treaty of Ash"
+---
+
+*Signed in the third month of the year 412 AR...*
+```
+
+### Handouts
+Handouts are player-facing files (PDFs, images). JSON files in `handouts/`:
+
+```
+src/content/my-world/handouts/sealed-letter.json
+```
+
+**Data:**
+
+```json
+{
+  "title": "The Sealed Letter",
+  "description": "A letter found in the ruins of Ur.", # Short description of the document
+  "file": "./sealed-letter.pdf"                        # Relative path to the file or remote URL
+}
+```
+
+Place the referenced file alongside the JSON.
+
+
+### Maps
+Interactive Leaflet maps. JSON files in `maps/`:
+
+```
+src/content/my-world/handouts/sealed-letter.json
+```
+
+```json
+{
+  "name": "World Map",
+  "caption": "The known world, circa 400 AR",                             # Caption to display under the map
+  "image": "./world-map.jpg",                                             # Relative path to the map image or remote URL
+  "markers": [
+    { "x": 540, "y": 320, "label": "The Capital", "link": "the-capital" }
+  ]
+}
+```
+
+Markers display pins on the map (`x` / `y` are pixel coordinates), and can be
+used to reference articles (`link` is an article slug).
