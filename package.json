@@ -18,9 +18,12 @@
         "build": "astro build",
         "preview": "astro preview",
         "sync": "astro sync",
+        "check": "astro check",
+        "format": "prettier . --write",
         "astro": "astro"
     },
     "dependencies": {
+        "@astrojs/check": "^0.9.9",
         "@astrojs/markdown-remark": "^7.2.0",
         "@astrojs/mdx": "^6.0.1",
         "astro": "^6.4.1",

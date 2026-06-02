@@ -5,13 +5,14 @@
 
     type Props = {
         placeholder: string;
+        project: CollectionEntry<"projects">;
         articles: CollectionEntry<"articles">[];
         perPage?: number;
     };
 
-    let { placeholder, articles, perPage }: Props = $props();
+    let { placeholder, project, articles, perPage }: Props = $props();
     let query = $state("");
 </script>
 
 <PaginationSearch bind:query={query} {placeholder} />
-<PaginatedArticles {articles} query={query} {perPage} />
+<PaginatedArticles {project} {articles} query={query} {perPage} />

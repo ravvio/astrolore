@@ -33,9 +33,7 @@ const CharacterDivinityMetadata = (image: ImageFunction) =>
 
 const CharacterMetadata = (image: ImageFunction) =>
     z.union([CharacterBaseMetadata(image), CharacterDivinityMetadata(image)]);
-export type CharacterMetadata = z.infer<
-    ReturnType<typeof OrganizationMetadata>
->;
+export type CharacterMetadata = z.infer<ReturnType<typeof CharacterMetadata>>;
 
 const LocationBaseMetadata = (image: ImageFunction) =>
     z.object({
