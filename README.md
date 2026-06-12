@@ -78,12 +78,17 @@ src/content/
     └── timelines/
 ```
 
-The `<your-world>.json` file and the directory `<your-world>` **must** be
-named the same.
+The `<your-world>.json` file and the directory `<your-world>` **must** be named
+the same. All content (other than the project metadata) follows the naming
+convention `src/content/<project>/<collection>/<slug>`.
 
-All content (other than the project metadata) follows the naming convention
-`src/content/<project>/<collection>/<slug>`. References are always resolved
-inside the project and are made using the slug.
+### References and Slugs
+
+References are always resolved inside the project and are made using the slug.
+
+When using slugs (and ids) **lowercase should always be used** even if the
+project files contain uppercase letters.
+
 
 ### Custom Calendar
 
