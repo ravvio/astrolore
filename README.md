@@ -361,7 +361,7 @@ Standalone timelines for important sequences of events. Work like embedded
 timelines, where the slug used is the filename. JSON files in `timelines/`:
 
 ```
-src/content/my-world/timelines/world-histoy.json
+src/content/my-world/timelines/world-history.json
 ```
 
 ```json
