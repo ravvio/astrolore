@@ -76,17 +76,17 @@
             </Table.Caption>
             <Table.Header>
                 <Table.Row>
-                    <Table.Head class="w-[50px] text-end">d{total}</Table.Head>
-                    <Table.Head>Value</Table.Head>
+                    <Table.Head class="w-[50px] text-end h-8">d{total}</Table.Head>
+                    <Table.Head class="h-8">Value</Table.Head>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {#each rows as row}
                     <Table.Row data-selected={isSelected(row)} class="data-[selected=true]:bg-muted/80 transition-colors duration-300">
-                        <Table.Cell class="font-medium text-end"
+                        <Table.Cell class="font-medium text-end py-1"
                             >{row.label}</Table.Cell
                         >
-                        <Table.Cell>{row.value}</Table.Cell>
+                        <Table.Cell class="py-1">{row.value}</Table.Cell>
                     </Table.Row>
                 {/each}
             </Table.Body>
