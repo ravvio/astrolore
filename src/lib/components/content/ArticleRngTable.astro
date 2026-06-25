@@ -12,9 +12,9 @@ const { table: tableSlug } = Astro.props;
 const table = await getEntry("tables", `${projectId}/tables/${tableSlug}`);
 ---
 
-<div class="w-full lg:w-2/5 [&:not(:first-child)]:mt-4 float-right">
+<div class="w-full lg:w-2/5 [&:not(:first-child)]:mt-4 mb-4 ml-4 float-right">
     {table ? (
-        <BinderTable table={table.data} client:idle />
+        <BinderTable table={table.data} hideTags client:idle />
     ) : (
     <span class="text-muted">{tableSlug}</span>
     )}

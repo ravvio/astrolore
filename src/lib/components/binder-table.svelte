@@ -5,20 +5,22 @@
     import type { TableData, TableItem } from "$lib/schema/binder-table";
     import { DicesIcon } from "@lucide/svelte";
     import Button from "./ui/button/button.svelte";
+    import { cn } from "$lib/utils";
 
     type Props = {
         table: TableData;
         class?: string;
+        hideTags?: boolean;
     };
-    const { table, class: className }: Props = $props();
+    const { table, class: className, hideTags }: Props = $props();
     const { title, caption, tags, items } = $derived(table);
 
     type Row = {
-        label: string,
-        value: string,
-        start: number,
-        end: number,
-    }
+        label: string;
+        value: string;
+        start: number;
+        end: number;
+    };
     function buildRows(items: TableItem[]) {
         const rows: Row[] = [];
         let start = 1;
@@ -42,7 +44,6 @@
     );
     let rows = $derived(buildRows(items));
 
-
     let selected: number | null = $state(null);
     function roll() {
         selected = 1 + Math.floor(Math.random() * total);
@@ -52,37 +53,29 @@
     }
 </script>
 
-<Card.Root class={className}>
-    <Card.Header>
-        <Card.Title>
-            {title}
-        </Card.Title>
-        <Card.Action>
-            <Button variant="ghost" size="default" onclick={roll}>
-                <DicesIcon />
-                {selected}
-            </Button>
-        </Card.Action>
-        <div class="flex flex-row flew-wrap gap-2">
-            {#each tags as tag}
-                <Badge>{tag}</Badge>
-            {/each}
-        </div>
-    </Card.Header>
+<Card.Root class={cn("gap-4", className)}>
     <Card.Content>
         <Table.Root>
-            <Table.Caption>
+            <Table.Caption class="text-xs mt-2">
                 {caption}
             </Table.Caption>
             <Table.Header>
-                <Table.Row>
-                    <Table.Head class="w-[50px] text-end h-8">d{total}</Table.Head>
-                    <Table.Head class="h-8">Value</Table.Head>
+                <Table.Row class="hover:none">
+                    <Table.Head class="w-auto text-end h-8">
+                        <Button size="default" variant="link" class="p-0" onclick={roll}>
+                            <DicesIcon />
+                            d{total}
+                        </Button>
+                    </Table.Head>
+                    <Table.Head class="w-full h-8">{title}</Table.Head>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {#each rows as row}
-                    <Table.Row data-selected={isSelected(row)} class="data-[selected=true]:bg-muted/80 transition-colors duration-300">
+                    <Table.Row
+                        data-selected={isSelected(row)}
+                        class="data-[selected=true]:bg-muted/80 transition-colors duration-300"
+                    >
                         <Table.Cell class="font-medium text-end py-1"
                             >{row.label}</Table.Cell
                         >
@@ -91,5 +84,12 @@
                 {/each}
             </Table.Body>
         </Table.Root>
+        {#if !hideTags}
+            <div class="flex flex-row flew-wrap gap-2 mt-2">
+                {#each tags as tag}
+                    <Badge>{tag}</Badge>
+                {/each}
+            </div>
+        {/if}
     </Card.Content>
 </Card.Root>
