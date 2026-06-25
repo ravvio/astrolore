@@ -8,8 +8,9 @@
 
     type Props = {
         table: TableData;
+        class?: string;
     };
-    const { table }: Props = $props();
+    const { table, class: className }: Props = $props();
     const { title, caption, tags, items } = $derived(table);
 
     type Row = {
@@ -51,7 +52,7 @@
     }
 </script>
 
-<Card.Root>
+<Card.Root class={className}>
     <Card.Header>
         <Card.Title>
             {title}

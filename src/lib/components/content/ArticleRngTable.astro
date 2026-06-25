@@ -1,0 +1,21 @@
+---
+import BinderTable from "../binder-table.svelte";
+import { getEntry } from "astro:content";
+
+type Props = {
+    label: string;
+    table: string;
+};
+const projectId = Astro.url.pathname.split("/")[1];
+const { table: tableSlug } = Astro.props;
+
+const table = await getEntry("tables", `${projectId}/tables/${tableSlug}`);
+---
+
+<div class="w-full lg:w-2/5 [&:not(:first-child)]:mt-4 float-right">
+    {table ? (
+        <BinderTable table={table.data} client:idle />
+    ) : (
+    <span class="text-muted">{tableSlug}</span>
+    )}
+</div>

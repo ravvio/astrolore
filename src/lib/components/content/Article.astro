@@ -20,6 +20,7 @@ import ArticleTableCell from "./ArticleTableCell.astro";
 import ArticleMap from "./ArticleMap.astro";
 import ArticleAbstractOf from "./ArticleAbstractOf.astro";
 import ArticleImage from "./ArticleImage.astro";
+import ArticleRngTable from "./ArticleRngTable.astro";
 const { Content, components } = Astro.props;
 ---
 
@@ -47,6 +48,7 @@ const { Content, components } = Astro.props;
         timeline: ArticleTimeline,
         map: ArticleMap,
         abstractof: ArticleAbstractOf,
+        rngtable: ArticleRngTable,
 
         ...components,
     }}

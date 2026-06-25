@@ -10,7 +10,8 @@ import { remarkAbstract } from "./src/remark/remark-abstract.mjs";
 import { remarkDate } from "./src/remark/remark-date.mjs";
 import { remarkTimeline } from "./src/remark/remark-timeline.mjs";
 import { remarkMapImage } from "./src/remark/remark-map-image.mjs";
-import { remarkAbstractOf } from "./src/remark/remark-abstract-of";
+import { remarkAbstractOf } from "./src/remark/remark-abstract-of.mjs";
+import { remarkTable } from "./src/remark/remark-table.mjs";
 import { rehypeHeadingIds, unified } from "@astrojs/markdown-remark";
 
 // https://astro.build/config
@@ -30,6 +31,7 @@ export default defineConfig({
                 remarkDate,
                 remarkTimeline,
                 remarkMapImage,
+                remarkTable,
             ],
             rehypePlugins: [rehypeHeadingIds],
         }),

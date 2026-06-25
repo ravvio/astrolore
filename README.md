@@ -268,7 +268,15 @@ Embeds the first paragraph of another article as a pull-quote summary.
 Embeds a timeline component. The timeline slug corresponds to the `timelines`
 array in `historic` article meta.
 
-####
+#### Embedded Tables
+
+```md
+::table{#table-slug}
+```
+
+Embeds a table component defined in the `tables` collection.
+
+#### Embedded Maps
 
 ```md
 ::map{#map-slug}
@@ -400,3 +408,5 @@ src/content/my-world/tables/big-folk-names.json
   ]                                          # List of items of the table with an optional weight
 }
 ```
+
+Embed tables in your articles using the `:table` directive.
