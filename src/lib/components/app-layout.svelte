@@ -19,6 +19,7 @@
             timelines: number;
             documents: number;
             handouts: number;
+            tables: number;
         };
         crumbs: Crumb[];
         pathname: string;

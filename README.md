@@ -75,6 +75,7 @@ src/content/
     ├── documents/
     ├── handouts/
     ├── maps/
+    ├── tables/
     └── timelines/
 ```
 
@@ -312,26 +313,6 @@ title: "The Treaty of Ash"
 *Signed in the third month of the year 412 AR...*
 ```
 
-### Handouts
-
-Handouts are player-facing files (PDFs, images). JSON files in `handouts/`:
-
-```
-src/content/my-world/handouts/sealed-letter.json
-```
-
-**Data:**
-
-```json
-{
-  "title": "The Sealed Letter",
-  "description": "A letter found in the ruins of Ur.", # Short description of the document
-  "file": "./sealed-letter.pdf"                        # Relative path to the file or remote URL
-}
-```
-
-Place the referenced file alongside the JSON.
-
 ### Maps
 
 Interactive Leaflet maps. JSON files in `maps/`:
@@ -373,3 +354,49 @@ src/content/my-world/timelines/world-history.json
 
 This will show all historic articles that include `world-history` in
 the `timelines` metadata array.
+
+### Handouts
+
+Handouts are player-facing files (PDFs, images). JSON files in `handouts/`:
+
+```
+src/content/my-world/handouts/sealed-letter.json
+```
+
+**Data:**
+
+```json
+{
+  "title": "The Sealed Letter",
+  "description": "A letter found in the ruins of Ur.", # Short description of the document
+  "file": "./sealed-letter.pdf"                        # Relative path to the file or remote URL
+}
+```
+
+Place the referenced file alongside the JSON.
+
+### Tables
+
+Tables are lists of items to be used for random generation. JSON files in `tables/`:
+
+```
+src/content/my-world/tables/big-folk-names.json
+```
+
+**Data:**
+
+```json
+{
+  "title": "Big Folk Names",
+  "caption": "Common names among Big Folks", # Caption of the table
+  "items": [
+    {
+      "value": "Jhon",
+      "weight": 2
+    },
+    {
+      "value": "Jhonny"
+    },
+  ]                                          # List of items of the table with an optional weight
+}
+```

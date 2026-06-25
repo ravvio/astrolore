@@ -17,6 +17,8 @@ export const it: Translations = {
         documents: "Documenti",
         handout: "Allegato",
         handouts: "Allegati",
+        table: "Tabella",
+        tables: "Tabelle",
         pinned: "In evidenza",
         search: "Cerca...",
     },

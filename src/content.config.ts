@@ -8,6 +8,7 @@ import { DocumentFrontmatter } from "$lib/schema/codex-document";
 
 import { HandoutData } from "$lib/schema/binder-handout";
 import { TimelineData } from "$lib/schema/codex-timeline";
+import { TableData } from "$lib/schema/binder-table";
 
 const projects = defineCollection({
     loader: glob({ pattern: "*.json", base: "./src/content" }),
@@ -44,6 +45,11 @@ const handouts = defineCollection({
     schema: HandoutData,
 });
 
+const tables = defineCollection({
+    loader: glob({ pattern: "*/tables/*.json", base: "./src/content" }),
+    schema: TableData,
+});
+
 export const collections = {
     projects,
     categories,
@@ -53,4 +59,5 @@ export const collections = {
     timelines,
 
     handouts,
+    tables,
 };

@@ -12,6 +12,7 @@
         StickyNoteIcon,
         NewspaperIcon,
         TimelineIcon,
+        DicesIcon,
     } from "@lucide/svelte";
     import { navigate } from "astro:transitions/client";
     import { Button } from "$lib/components/ui/button/index.js";
@@ -45,6 +46,7 @@
             timelines: number;
             documents: number;
             handouts: number;
+            tables: number;
         };
         translations: Translations;
         pathname: string;
@@ -272,6 +274,23 @@
                                     >
                                         <StickyNoteIcon />
                                         {translations.common.handouts}
+                                    </a>
+                                {/snippet}
+                            </Sidebar.MenuButton>
+                        </Sidebar.MenuItem>
+                    {/if}
+                    {#if counts.tables}
+                        <Sidebar.MenuItem>
+                            <Sidebar.MenuButton
+                                isActive={section === "tables" && !slug}
+                            >
+                                {#snippet child({ props })}
+                                    <a
+                                        href={`/${project.id}/tables`}
+                                        {...props}
+                                    >
+                                        <DicesIcon />
+                                        {translations.common.tables}
                                     </a>
                                 {/snippet}
                             </Sidebar.MenuButton>

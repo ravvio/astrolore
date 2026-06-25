@@ -17,6 +17,8 @@ export const en: Translations = {
         documents: "Documents",
         handout: "Handout",
         handouts: "Handouts",
+        table: "Table",
+        tables: "Tables",
         pinned: "Pinned",
         search: "Search...",
     },

@@ -15,6 +15,8 @@ export interface Translations {
         documents: string;
         handout: string;
         handouts: string;
+        table: string;
+        tables: string;
         pinned: string;
         search: string;
     };

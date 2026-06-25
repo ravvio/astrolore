@@ -22,7 +22,7 @@ const pathname = Astro.url.pathname;
 
 const projects = await getCollection("projects");
 
-const [categories, articles, maps, timelines, documents, handouts] = project
+const [categories, articles, maps, timelines, documents, handouts, tables] = project
     ? await Promise.all([
           getCollection(
               "categories",
@@ -45,8 +45,12 @@ const [categories, articles, maps, timelines, documents, handouts] = project
               "handouts",
               ({ id }) => projectFromId(id) === project.id,
           ),
+          getCollection(
+              "tables",
+              ({ id }) => projectFromId(id) === project.id,
+          ),
       ])
-    : [[], [], [], [], [], []];
+      : [[], [], [], [], [], [], []];
 
 const categoryItems: CollectionItem[] = categories.map((c) => ({
     id: c.id,
@@ -67,6 +71,7 @@ const counts = {
     timelines: timelines.length,
     documents: documents.length,
     handouts: handouts.length,
+    tables: tables.length,
 };
 
 const translations = getTranslations(project?.data.language);
