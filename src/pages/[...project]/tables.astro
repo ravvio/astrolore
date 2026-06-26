@@ -20,11 +20,9 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 
-const tables = (
-    await getCollection("tables", (t) => {
-        return projectFromId(t.id) == project.id;
-    })
-)
+const tables = await getCollection("tables", (t) => {
+    return projectFromId(t.id) == project.id;
+});
 
 const translations = getTranslations(project.data.language);
 const crumbs: Crumb[] = [

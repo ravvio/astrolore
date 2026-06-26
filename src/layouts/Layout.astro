@@ -22,35 +22,39 @@ const pathname = Astro.url.pathname;
 
 const projects = await getCollection("projects");
 
-const [categories, articles, maps, timelines, documents, handouts, tables] = project
-    ? await Promise.all([
-          getCollection(
-              "categories",
-              ({ id }) => projectFromId(id) === project.id,
-          ),
-          getCollection(
-              "articles",
-              ({ id }) => projectFromId(id) === project.id,
-          ),
-          getCollection("maps", ({ id }) => projectFromId(id) === project.id),
-          getCollection(
-              "timelines",
-              ({ id }) => projectFromId(id) === project.id,
-          ),
-          getCollection(
-              "documents",
-              ({ id }) => projectFromId(id) === project.id,
-          ),
-          getCollection(
-              "handouts",
-              ({ id }) => projectFromId(id) === project.id,
-          ),
-          getCollection(
-              "tables",
-              ({ id }) => projectFromId(id) === project.id,
-          ),
-      ])
-      : [[], [], [], [], [], [], []];
+const [categories, articles, maps, timelines, documents, handouts, tables] =
+    project
+        ? await Promise.all([
+              getCollection(
+                  "categories",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "articles",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "maps",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "timelines",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "documents",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "handouts",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "tables",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+          ])
+        : [[], [], [], [], [], [], []];
 
 const categoryItems: CollectionItem[] = categories.map((c) => ({
     id: c.id,

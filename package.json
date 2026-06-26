@@ -24,18 +24,16 @@
     },
     "dependencies": {
         "@astrojs/check": "^0.9.9",
-        "@astrojs/markdown-remark": "^7.2.0",
-        "@astrojs/mdx": "^6.0.1",
-        "astro": "^6.4.1",
+        "@astrojs/markdown-satteri": "^0.3.2",
+        "@astrojs/mdx": "^7.0.0",
+        "astro": "^7.0.3",
         "dayjs": "^1.11.20",
         "mode-watcher": "^1.1.0",
-        "remark-directive": "^4.0.0",
-        "remark-gfm": "^4.0.1",
+        "satteri": "^0.9.2",
         "sharp": "^0.34.5",
         "svelte": "^5.55.5",
         "tailwindcss": "^4.3.0",
-        "typescript": "^5.9.3",
-        "unist-util-visit": "^5.1.0"
+        "typescript": "^5.9.3"
     },
     "devDependencies": {
         "@astrojs/svelte": "latest",

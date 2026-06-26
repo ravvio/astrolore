@@ -3,16 +3,14 @@ import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
-import remarkGfm from "remark-gfm";
-import remarkDirective from "remark-directive";
-import { remarkGoto } from "./src/remark/remark-goto.mjs";
-import { remarkAbstract } from "./src/remark/remark-abstract.mjs";
-import { remarkDate } from "./src/remark/remark-date.mjs";
-import { remarkTimeline } from "./src/remark/remark-timeline.mjs";
-import { remarkMapImage } from "./src/remark/remark-map-image.mjs";
-import { remarkAbstractOf } from "./src/remark/remark-abstract-of.mjs";
-import { remarkTable } from "./src/remark/remark-table.mjs";
-import { rehypeHeadingIds, unified } from "@astrojs/markdown-remark";
+import { satteri, satteriHeadingIdsPlugin } from "@astrojs/markdown-satteri";
+import { mdastAbstract } from "./src/satteri/mdast-abstract.mjs";
+import { mdastDate } from "./src/satteri/mdast-date.mjs";
+import { mdastMapImage } from "./src/satteri/mdast-map-image.mjs";
+import { mdastRngTable } from "./src/satteri/mdast-rng-table.mjs";
+import { mdastGoto } from "./src/satteri/mdast-goto.mjs";
+import { mdastTimeline } from "./src/satteri/mdast-timeline.mjs";
+import { mdastAbstractOf } from "./src/satteri/mdast-abstract-of.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,20 +18,23 @@ export default defineConfig({
     integrations: [svelte(), mdx()],
 
     markdown: {
-        processor: unified({
-            remarkPlugins: [
-                remarkGfm,
-                remarkDirective,
-                // Custom
-                remarkGoto,
-                remarkAbstract,
-                remarkAbstractOf,
-                remarkDate,
-                remarkTimeline,
-                remarkMapImage,
-                remarkTable,
+        processor: satteri({
+            features: {
+                gfm: true,
+                smartPunctuation: true,
+                headingAttributes: true,
+                directive: true,
+            },
+            mdastPlugins: [
+                mdastDate,
+                mdastMapImage,
+                mdastTimeline,
+                mdastRngTable,
+                mdastGoto,
+                mdastAbstract,
+                mdastAbstractOf,
             ],
-            rehypePlugins: [rehypeHeadingIds],
+            hastPlugins: [satteriHeadingIdsPlugin()],
         }),
     },
 

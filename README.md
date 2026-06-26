@@ -90,7 +90,6 @@ References are always resolved inside the project and are made using the slug.
 When using slugs (and ids) **lowercase should always be used** even if the
 project files contain uppercase letters.
 
-
 ### Custom Calendar
 
 Add a `calendar` object to your project JSON to define an in-world calendar.
