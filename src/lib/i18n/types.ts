@@ -19,6 +19,8 @@ export interface Translations {
         tables: string;
         pinned: string;
         search: string;
+        familyTree: string;
+        familyTrees: string;
     };
     theme: {
         label: string;
@@ -102,6 +104,9 @@ export interface Translations {
             bornIn: string;
             death: string;
             diedIn: string;
+            parents: string;
+            children: string;
+            spouses: string;
         };
         creature: {
             image: string;

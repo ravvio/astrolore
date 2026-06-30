@@ -21,6 +21,7 @@ import ArticleMap from "./ArticleMap.astro";
 import ArticleAbstractOf from "./ArticleAbstractOf.astro";
 import ArticleImage from "./ArticleImage.astro";
 import ArticleRngTable from "./ArticleRngTable.astro";
+import ArticleFamilyTree from "./ArticleFamilyTree.astro";
 const { Content, components } = Astro.props;
 ---
 
@@ -49,6 +50,7 @@ const { Content, components } = Astro.props;
         map: ArticleMap,
         abstractof: ArticleAbstractOf,
         rngtable: ArticleRngTable,
+        familytree: ArticleFamilyTree,
 
         ...components,
     }}

@@ -21,6 +21,11 @@ const CharacterBaseMetadata = (image: ImageFunction) =>
         death: z.string().optional(),
         bornIn: z.string().optional(),
         diedIn: z.string().optional(),
+
+        gender: z.enum(["M", "F"]).optional(),
+        parents: z.string().array().optional(),
+        children: z.string().array().optional(),
+        spouses: z.string().array().optional(),
     });
 export type CharacterBaseMetadata = z.infer<
     ReturnType<typeof CharacterBaseMetadata>

@@ -21,6 +21,8 @@ export const en: Translations = {
         tables: "Tables",
         pinned: "Pinned",
         search: "Search...",
+        familyTree: "Family Tree",
+        familyTrees: "Family Trees",
     },
     theme: {
         label: "Theme",
@@ -104,6 +106,9 @@ export const en: Translations = {
             bornIn: "Born in",
             death: "Death",
             diedIn: "Died In",
+            parents: "Parents",
+            children: "Children",
+            spouses: "Spouses",
         },
         creature: {
             image: "Image",

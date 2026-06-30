@@ -55,8 +55,8 @@ export const collections = {
     categories,
     articles,
     maps,
-    documents,
     timelines,
+    documents,
 
     handouts,
     tables,

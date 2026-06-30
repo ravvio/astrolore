@@ -11,6 +11,7 @@ import { mdastRngTable } from "./src/satteri/mdast-rng-table.mjs";
 import { mdastGoto } from "./src/satteri/mdast-goto.mjs";
 import { mdastTimeline } from "./src/satteri/mdast-timeline.mjs";
 import { mdastAbstractOf } from "./src/satteri/mdast-abstract-of.mjs";
+import { mdastFamilyTree } from "./src/satteri/mdast-family-tree.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,6 +30,7 @@ export default defineConfig({
                 mdastDate,
                 mdastMapImage,
                 mdastTimeline,
+                mdastFamilyTree,
                 mdastRngTable,
                 mdastGoto,
                 mdastAbstract,

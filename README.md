@@ -177,6 +177,7 @@ fields (like `capital`).
     - `organizations`, `organizationsFormer`
     - `birth`, `death` (in-world dates)
     - `bornIn`, `diedIn`
+    - `parents`, `spouses`, `children` (used to populate family trees)
     - `creature`
     - `kind`: `divinity`
 - `location`
@@ -283,6 +284,16 @@ Embeds a table component defined in the `tables` collection.
 
 Embeds an interactive Leaflet map. The `map-slug` references an entry in the
 maps collection.
+
+#### Embedded Family Trees
+
+```md
+::familyTree{#main-character-slug}
+```
+
+Embeds an interactive family tree starting from the character specified. The
+family tree is automatically populated by using the `parents`, `spouses` and
+`children` properties in the character metadata.
 
 ### Categories
 

@@ -21,6 +21,8 @@ export const it: Translations = {
         tables: "Tabelle",
         pinned: "In evidenza",
         search: "Cerca...",
+        familyTree: "Albero Genealogico",
+        familyTrees: "Alberi Genealogici",
     },
     theme: {
         label: "Tema",
@@ -104,6 +106,9 @@ export const it: Translations = {
             bornIn: "Nato/a a",
             death: "Morte",
             diedIn: "Morto/a a",
+            parents: "Genitori",
+            children: "Figli",
+            spouses: "Coniugi",
         },
         creature: {
             image: "Immagine",
