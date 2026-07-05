@@ -407,6 +407,7 @@ src/content/my-world/tables/big-folk-names.json
 {
   "title": "Big Folk Names",
   "caption": "Common names among Big Folks", # Caption of the table
+  "header": "Name",
   "items": [
     {
       "value": "Jhon",

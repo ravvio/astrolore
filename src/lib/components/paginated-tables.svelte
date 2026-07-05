@@ -23,6 +23,7 @@
           })
         : tables}
     {perPage}
+    class="columns lg:columns-2"
 >
     {#snippet child(item: ItemType)}
         <BinderTable table={item.data} />

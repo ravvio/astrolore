@@ -10,6 +10,7 @@ export const TableData = z.object({
     title: z.string(),
     caption: z.string().optional(),
     tags: z.string().array().optional(),
+    header: z.string(),
     items: TableItem.array(),
 });
 export type TableData = z.infer<typeof TableData>;

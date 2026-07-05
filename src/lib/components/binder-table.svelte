@@ -13,7 +13,7 @@
         hideTags?: boolean;
     };
     const { table, class: className, hideTags }: Props = $props();
-    const { title, caption, tags, items } = $derived(table);
+    const { title, caption, tags, header, items } = $derived(table);
 
     type Row = {
         label: string;
@@ -53,24 +53,35 @@
     }
 </script>
 
-<Card.Root class={cn("gap-4", className)}>
+<Card.Root class={cn("gap-0", className)}>
+    <Card.Header>
+        <Card.Title>
+            {title}
+        </Card.Title>
+        <Card.Action class="my-0 py-0">
+            <Button variant="default" onclick={roll}>
+                <DicesIcon />
+                Roll
+                {#if selected}
+                    ({selected})
+                {/if}
+            </Button>
+        </Card.Action>
+    </Card.Header>
     <Card.Content>
         <Table.Root>
             <Table.Caption class="text-xs mt-2">
                 {caption}
             </Table.Caption>
             <Table.Header>
-                <Table.Row class="hover:none">
+                <Table.Row class="">
                     <Table.Head class="w-auto text-end h-8">
-                        <Button size="default" variant="link" class="p-0" onclick={roll}>
-                            <DicesIcon />
-                            d{total}
-                        </Button>
+                        d{total}
                     </Table.Head>
-                    <Table.Head class="w-full h-8">{title}</Table.Head>
+                    <Table.Head class="w-full h-8">{header}</Table.Head>
                 </Table.Row>
             </Table.Header>
-            <Table.Body>
+            <Table.Body class="max-h-[400px]">
                 {#each rows as row}
                     <Table.Row
                         data-selected={isSelected(row)}
