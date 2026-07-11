@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import PaginatedDocumentsSearch from "$lib/components/paginated-documents-search.svelte";
+import PageTitle from "$lib/components/PageTitle.astro";
 import { projectFromId, type Crumb } from "$lib/content-utils";
 import { getTranslations } from "$lib/i18n";
 
@@ -39,9 +40,10 @@ const crumbs: Crumb[] = [
 ---
 
 <Layout title={`${project.data.title} - Documents`} {crumbs} {project}>
+    <PageTitle>{translations.common.documents}</PageTitle>
     <PaginatedDocumentsSearch
         {documents}
-        placeholder={translations.common.search}
+        placeholder={translations.search.placeholder}
         client:idle
     />
 </Layout>

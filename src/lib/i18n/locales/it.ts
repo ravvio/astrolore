@@ -20,7 +20,6 @@ export const it: Translations = {
         table: "Tabella",
         tables: "Tabelle",
         pinned: "In evidenza",
-        search: "Cerca...",
         familyTree: "Albero Genealogico",
         familyTrees: "Alberi Genealogici",
     },
@@ -31,7 +30,7 @@ export const it: Translations = {
         system: "Sistema",
     },
     search: {
-        placeholder: "Digita un comando o cerca...",
+        placeholder: "Cerca...",
         noResults: "Nessun risultato trovato.",
         categories: "Categorie",
         articles: "Articoli",

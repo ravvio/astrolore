@@ -45,7 +45,6 @@ export async function getStaticPaths() {
 
 const { project, category, categoryArticles } = Astro.props;
 const { Content } = await render(category);
-
 const slug = slugFromId(category.id);
 
 const translations = getTranslations(project.data.language);
@@ -53,6 +52,10 @@ const crumbs: Crumb[] = [
     {
         label: project.data.title,
         href: `/${project.id}`,
+    },
+    {
+        label: project.data.title,
+        href: `/${project.id}/categories`,
     },
     {
         label: category.data.title,

@@ -94,14 +94,12 @@ const crumbs: Crumb[] = [
 
 <Layout title={project.data.title} {crumbs} {project}>
     <div>
-        <h1 class="text-4xl font-bold tracking-tight lg:text-5xl">
+        <h1 class="mb-8 text-4xl font-bold tracking-tight lg:text-5xl">
             {project.data.title}
         </h1>
         {
             project.data.description && (
-                <p class="text-muted-foreground mt-4">
-                    {project.data.description}
-                </p>
+                <p class="text-muted-foreground">{project.data.description}</p>
             )
         }
     </div>

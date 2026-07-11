@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import PaginatedTimelinesSearch from "$lib/components/paginated-timelines-search.svelte";
+import PageTitle from "$lib/components/PageTitle.astro";
 import { projectFromId, type Crumb } from "$lib/content-utils";
 import { getTranslations } from "$lib/i18n";
 
@@ -38,9 +39,10 @@ const crumbs: Crumb[] = [
 ---
 
 <Layout title={`${project.data.title} - Timelines`} {crumbs} {project}>
+    <PageTitle>{translations.common.timelines}</PageTitle>
     <PaginatedTimelinesSearch
         {timelines}
-        placeholder={translations.common.search}
+        placeholder={translations.search.placeholder}
         client:idle
     />
 </Layout>

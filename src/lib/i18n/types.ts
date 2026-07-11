@@ -18,7 +18,6 @@ export interface Translations {
         table: string;
         tables: string;
         pinned: string;
-        search: string;
         familyTree: string;
         familyTrees: string;
     };

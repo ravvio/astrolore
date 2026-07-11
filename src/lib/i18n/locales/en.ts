@@ -20,7 +20,6 @@ export const en: Translations = {
         table: "Table",
         tables: "Tables",
         pinned: "Pinned",
-        search: "Search...",
         familyTree: "Family Tree",
         familyTrees: "Family Trees",
     },
@@ -31,7 +30,7 @@ export const en: Translations = {
         system: "System",
     },
     search: {
-        placeholder: "Type a command or search...",
+        placeholder: "Search...",
         noResults: "No results found.",
         categories: "Categories",
         articles: "Articles",

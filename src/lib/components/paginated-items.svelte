@@ -19,7 +19,7 @@
   class="w-full flex flex-col space-y-8 items-center"
 >
   {#snippet children({ pages, currentPage, range })}
-    <div class={cn("grid lg:grid-cols-2 w-full space-x-4 space-y-4", className)}>
+    <div class={cn("grid lg:grid-cols-2 w-full gap-4", className)}>
       {#each items.slice(range.start - 1, range.end) as item (item.id)}
         <div animate:flip={{ duration: 500 }}>
           {@render child(item)}

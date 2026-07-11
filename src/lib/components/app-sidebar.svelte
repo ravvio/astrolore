@@ -1,13 +1,11 @@
 <script lang="ts">
     import ModeToggle from "$lib/components/mode-toggle.svelte";
     import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-    import * as Collapsible from "$lib/components/ui/collapsible/index.js";
     import type { CollectionEntry } from "astro:content";
     import ProjectDropdown from "./project-dropdown.svelte";
     import {
         MapIcon,
         ScrollIcon,
-        ChevronDownIcon,
         LibraryBigIcon,
         StickyNoteIcon,
         NewspaperIcon,
@@ -128,7 +126,7 @@
                                 open = true;
                             }}
                         >
-                            {translations.common.search}
+                            {translations.search.placeholder}
                             <kbd
                                 class="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none"
                             >
@@ -141,123 +139,121 @@
         {/if}
 
         {#if project}
-            <Collapsible.Root open class="group/collapsible-codex">
-                <Sidebar.Group>
-                    <Sidebar.GroupLabel>{translations.common.codex}</Sidebar.GroupLabel>
+            <Sidebar.Group>
+                <Sidebar.GroupLabel>{translations.common.codex}</Sidebar.GroupLabel>
 
-                    <Sidebar.GroupContent>
-                        {#if categories}
-                            <Sidebar.MenuItem>
-                                <Collapsible.Trigger>
-                                    {#snippet child({ props })}
-                                        <Sidebar.MenuButton {...props}>
-                                            <LibraryBigIcon />
-                                            {translations.common.categories}
-                                            <ChevronDownIcon
-                                                class="ms-auto transition-transform group-data-[state=open]/collapsible-codex:rotate-180"
-                                            />
-                                        </Sidebar.MenuButton>
-                                    {/snippet}
-                                </Collapsible.Trigger>
-                            </Sidebar.MenuItem>
-                            <Collapsible.Content>
-                                <Sidebar.MenuSub>
-                                    {#each categories as cat (cat.label)}
-                                        <Sidebar.MenuSubItem>
-                                            <Sidebar.MenuSubButton
-                                                isActive={section ===
-                                                    "categories" &&
-                                                    slug === slugFromId(cat.id)}
+                <Sidebar.GroupContent>
+                    {#if categories}
+                        <Sidebar.MenuItem>
+                            <Sidebar.MenuButton
+                                isActive={section === "categories" &&
+                                    !slug}
+                            >
+                                {#snippet child({ props })}
+                                    <a
+                                        href={`/${project.id}/categories`}
+                                        {...props}
+                                    >
+                                        <LibraryBigIcon />
+                                        {translations.common.categories}
+                                    </a>
+                                {/snippet}
+                            </Sidebar.MenuButton>
+                        </Sidebar.MenuItem>
+                        <Sidebar.MenuSub>
+                            {#each categories as cat (cat.label)}
+                                <Sidebar.MenuSubItem>
+                                    <Sidebar.MenuSubButton
+                                        isActive={section === "categories" &&
+                                            slug === slugFromId(cat.id)}
+                                    >
+                                        {#snippet child({ props })}
+                                            <a
+                                                href={`/${cat.id}`}
+                                                {...props}
                                             >
-                                                {#snippet child({ props })}
-                                                    <a
-                                                        href={`/${cat.id}`}
-                                                        {...props}
-                                                    >
-                                                        <span>{cat.label}</span>
-                                                    </a>
-                                                {/snippet}
-                                            </Sidebar.MenuSubButton>
-                                        </Sidebar.MenuSubItem>
-                                    {/each}
-                                </Sidebar.MenuSub>
-                            </Collapsible.Content>
-                        {/if}
+                                                <span>{cat.label}</span>
+                                            </a>
+                                        {/snippet}
+                                    </Sidebar.MenuSubButton>
+                                </Sidebar.MenuSubItem>
+                            {/each}
+                        </Sidebar.MenuSub>
+                    {/if}
 
-                        {#if counts.articles}
-                            <Sidebar.MenuItem>
-                                <Sidebar.MenuButton
-                                    isActive={section === "articles" && !slug}
-                                >
-                                    {#snippet child({ props })}
-                                        <a
-                                            href={`/${project.id}/articles`}
-                                            {...props}
-                                        >
-                                            <NewspaperIcon />
-                                            {translations.common.articles}
-                                        </a>
-                                    {/snippet}
-                                </Sidebar.MenuButton>
-                            </Sidebar.MenuItem>
-                        {/if}
+                    {#if counts.articles}
+                        <Sidebar.MenuItem>
+                            <Sidebar.MenuButton
+                                isActive={section === "articles" && !slug}
+                            >
+                                {#snippet child({ props })}
+                                    <a
+                                        href={`/${project.id}/articles`}
+                                        {...props}
+                                    >
+                                        <NewspaperIcon />
+                                        {translations.common.articles}
+                                    </a>
+                                {/snippet}
+                            </Sidebar.MenuButton>
+                        </Sidebar.MenuItem>
+                    {/if}
 
-                        {#if counts.maps}
-                            <Sidebar.MenuItem>
-                                <Sidebar.MenuButton
-                                    isActive={section === "maps" && !slug}
-                                >
-                                    {#snippet child({ props })}
-                                        <a
-                                            href={`/${project.id}/maps`}
-                                            {...props}
-                                        >
-                                            <MapIcon />
-                                            {translations.common.maps}
-                                        </a>
-                                    {/snippet}
-                                </Sidebar.MenuButton>
-                            </Sidebar.MenuItem>
-                        {/if}
+                    {#if counts.maps}
+                        <Sidebar.MenuItem>
+                            <Sidebar.MenuButton
+                                isActive={section === "maps" && !slug}
+                            >
+                                {#snippet child({ props })}
+                                    <a
+                                        href={`/${project.id}/maps`}
+                                        {...props}
+                                    >
+                                        <MapIcon />
+                                        {translations.common.maps}
+                                    </a>
+                                {/snippet}
+                            </Sidebar.MenuButton>
+                        </Sidebar.MenuItem>
+                    {/if}
 
-                        {#if counts.timelines}
-                            <Sidebar.MenuItem>
-                                <Sidebar.MenuButton
-                                    isActive={section === "timelines" && !slug}
-                                >
-                                    {#snippet child({ props })}
-                                        <a
-                                            href={`/${project.id}/timelines`}
-                                            {...props}
-                                        >
-                                            <TimelineIcon />
-                                            {translations.common.timelines}
-                                        </a>
-                                    {/snippet}
-                                </Sidebar.MenuButton>
-                            </Sidebar.MenuItem>
-                        {/if}
+                    {#if counts.timelines}
+                        <Sidebar.MenuItem>
+                            <Sidebar.MenuButton
+                                isActive={section === "timelines" && !slug}
+                            >
+                                {#snippet child({ props })}
+                                    <a
+                                        href={`/${project.id}/timelines`}
+                                        {...props}
+                                    >
+                                        <TimelineIcon />
+                                        {translations.common.timelines}
+                                    </a>
+                                {/snippet}
+                            </Sidebar.MenuButton>
+                        </Sidebar.MenuItem>
+                    {/if}
 
-                        {#if counts.documents}
-                            <Sidebar.MenuItem>
-                                <Sidebar.MenuButton
-                                    isActive={section === "documents" && !slug}
-                                >
-                                    {#snippet child({ props })}
-                                        <a
-                                            href={`/${project.id}/documents`}
-                                            {...props}
-                                        >
-                                            <ScrollIcon />
-                                            {translations.common.documents}
-                                        </a>
-                                    {/snippet}
-                                </Sidebar.MenuButton>
-                            </Sidebar.MenuItem>
-                        {/if}
-                    </Sidebar.GroupContent>
-                </Sidebar.Group>
-            </Collapsible.Root>
+                    {#if counts.documents}
+                        <Sidebar.MenuItem>
+                            <Sidebar.MenuButton
+                                isActive={section === "documents" && !slug}
+                            >
+                                {#snippet child({ props })}
+                                    <a
+                                        href={`/${project.id}/documents`}
+                                        {...props}
+                                    >
+                                        <ScrollIcon />
+                                        {translations.common.documents}
+                                    </a>
+                                {/snippet}
+                            </Sidebar.MenuButton>
+                        </Sidebar.MenuItem>
+                    {/if}
+                </Sidebar.GroupContent>
+            </Sidebar.Group>
 
             <Sidebar.Group>
                 <Sidebar.GroupLabel>{translations.common.binder}</Sidebar.GroupLabel>
