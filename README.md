@@ -227,12 +227,20 @@ projects and have the syntax (`<year>/<month>/<day>`).
 
 In MDX body text, link to other articles with standard markdown:
 
-```mdx
+```md
 The [Great War](the-great-war) began when ...
 ```
 
 Slugs are resolved relative to the current project. Aliases defined in
 frontmatter also work as link targets.
+
+You can also use wiki style links (like in Obsidian):
+
+```md
+[[The Great War]] began when ...
+```
+
+where the slug (the-great-war) is automatically generated.
 
 #### In-World Date
 
@@ -245,7 +253,7 @@ falls back to a plain display.
 
 #### Navigation Links
 
-```mdx
+```md
 ::goto{#article-slug}
 ```
 

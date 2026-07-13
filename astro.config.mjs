@@ -12,6 +12,7 @@ import { mdastGoto } from "./src/satteri/mdast-goto.mjs";
 import { mdastTimeline } from "./src/satteri/mdast-timeline.mjs";
 import { mdastAbstractOf } from "./src/satteri/mdast-abstract-of.mjs";
 import { mdastFamilyTree } from "./src/satteri/mdast-family-tree.mjs";
+import { mdastLink } from "./src/satteri/mdast-link.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,8 +26,10 @@ export default defineConfig({
                 smartPunctuation: true,
                 headingAttributes: true,
                 directive: true,
+                wikilinks: true,
             },
             mdastPlugins: [
+                mdastLink,
                 mdastDate,
                 mdastMapImage,
                 mdastTimeline,
