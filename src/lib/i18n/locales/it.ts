@@ -5,6 +5,8 @@ export const it: Translations = {
         lore: "Lore",
         codex: "Codex",
         binder: "Raccoglitore",
+        projects: "Progetti",
+        project: "Progetto",
         category: "Categoria",
         categories: "Categorie",
         article: "Articolo",

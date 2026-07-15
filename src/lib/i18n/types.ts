@@ -3,6 +3,8 @@ export interface Translations {
         lore: string;
         codex: string;
         binder: string;
+        projects: string;
+        project: string;
         category: string;
         categories: string;
         article: string;
