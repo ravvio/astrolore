@@ -11,11 +11,12 @@
         NewspaperIcon,
         TimelineIcon,
         DicesIcon,
+        OrigamiIcon,
     } from "@lucide/svelte";
     import { navigate } from "astro:transitions/client";
     import { Button } from "$lib/components/ui/button/index.js";
     import * as Command from "$lib/components/ui/command/index.js";
-    import { type CollectionItem, slugFromId } from "$lib/content-utils";
+    import { type CollectionItem, type ContentCounts, slugFromId } from "$lib/content-utils";
     import type { Translations } from "$lib/i18n";
 
     let open = $state(false);
@@ -38,14 +39,7 @@
         categories: CollectionItem[];
         articles: CollectionItem[];
         documents: CollectionItem[];
-        counts: {
-            articles: number;
-            maps: number;
-            timelines: number;
-            documents: number;
-            handouts: number;
-            tables: number;
-        };
+        counts: ContentCounts;
         translations: Translations;
         pathname: string;
     };
@@ -287,6 +281,23 @@
                                     >
                                         <DicesIcon />
                                         {translations.common.tables}
+                                    </a>
+                                {/snippet}
+                            </Sidebar.MenuButton>
+                        </Sidebar.MenuItem>
+                    {/if}
+                    {#if counts.statblocks}
+                        <Sidebar.MenuItem>
+                            <Sidebar.MenuButton
+                                isActive={section === "statblocks" && !slug}
+                            >
+                                {#snippet child({ props })}
+                                    <a
+                                        href={`/${project.id}/statblocks`}
+                                        {...props}
+                                    >
+                                        <OrigamiIcon />
+                                        {translations.common.statblocks}
                                     </a>
                                 {/snippet}
                             </Sidebar.MenuButton>

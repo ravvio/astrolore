@@ -53,11 +53,9 @@
             .setOnCardClick((_e: any, d: any) => {
                 chart.updateMainId(d.data.id);
                 chart.updateTree({});
-                console.log("Tree updated");
             })
             .setOnHoverPathToMain();
         chart.updateTree({ initial: true });
-        console.log("Tree updated");
     });
 </script>
 

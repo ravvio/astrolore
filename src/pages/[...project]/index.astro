@@ -1,7 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
-import { projectFromId, type Crumb } from "$lib/content-utils";
+import { type ContentCounts, type Crumb } from "$lib/content-utils";
+import { getProjectCollections } from "$lib/astro-content-utils";
 import { buildArticleMap, getAbstract } from "$lib/astro-content-utils";
 import ProjectPinnedArticle from "$lib/components/project-pinned-article.svelte";
 import ProjectShortcut from "$lib/components/project-shortcut.svelte";
@@ -12,6 +13,8 @@ import {
     StickyNoteIcon,
     TimelineIcon,
     DicesIcon,
+    LibraryBigIcon,
+    OrigamiIcon,
 } from "@lucide/svelte";
 import { getTranslations } from "$lib/i18n";
 
@@ -22,59 +25,44 @@ export async function getStaticPaths() {
 
     return Promise.all(
         projects.map(async (project) => {
-            const projectId = project.id;
-
-            const [articles, maps, timelines, documents, handouts, tables] =
-                await Promise.all([
-                    getCollection(
-                        "articles",
-                        ({ id }) => projectFromId(id) === projectId,
-                    ),
-                    getCollection(
-                        "maps",
-                        ({ id }) => projectFromId(id) === projectId,
-                    ),
-                    getCollection(
-                        "timelines",
-                        ({ id }) => projectFromId(id) === projectId,
-                    ),
-                    getCollection(
-                        "documents",
-                        ({ id }) => projectFromId(id) === projectId,
-                    ),
-                    getCollection(
-                        "handouts",
-                        ({ id }) => projectFromId(id) === projectId,
-                    ),
-                    getCollection(
-                        "tables",
-                        ({ id }) => projectFromId(id) === projectId,
-                    ),
-                ]);
+            const {
+                categories,
+                articles,
+                maps,
+                timelines,
+                documents,
+                handouts,
+                tables,
+                statblocks,
+            } = await getProjectCollections(project);
 
             const pinnedArticles = await Promise.all(
                 (project.data.pinned ?? []).map(async (slug) => {
-                    const article = articleMap.get(`${projectId}/${slug}`);
+                    const article = articleMap.get(`${project.id}/${slug}`);
                     if (!article)
-                        throw `No article found in project ${projectId} with slug ${slug}`;
+                        throw `No article found in project ${project.id} with slug ${slug}`;
                     const abstract = await getAbstract(article);
                     return { article, abstract };
                 }),
             );
 
+            const counts: ContentCounts = {
+                categories: categories.length,
+                articles: articles.length,
+                maps: maps.length,
+                timelines: timelines.length,
+                documents: documents.length,
+                handouts: handouts.length,
+                tables: tables.length,
+                statblocks: statblocks.length,
+            };
+
             return {
-                params: { project: projectId },
+                params: { project: project.id },
                 props: {
                     project,
                     pinnedArticles,
-                    counts: {
-                        articles: articles.length,
-                        maps: maps.length,
-                        timelines: timelines.length,
-                        documents: documents.length,
-                        handouts: handouts.length,
-                        tables: tables.length,
-                    },
+                    counts,
                 },
             };
         }),
@@ -131,6 +119,12 @@ const crumbs: Crumb[] = [
                         </span>
                         <div class="mt-2 flex flex-row flex-wrap gap-2">
                             <ProjectShortcut
+                                label={translations.common.categories}
+                                href={`/${project.id}/categories`}
+                                count={counts.categories}
+                                Icon={LibraryBigIcon}
+                            />
+                            <ProjectShortcut
                                 label={translations.common.articles}
                                 href={`/${project.id}/articles`}
                                 count={counts.articles}
@@ -177,6 +171,12 @@ const crumbs: Crumb[] = [
                                 href={`/${project.id}/tables`}
                                 count={counts.tables}
                                 Icon={DicesIcon}
+                            />
+                            <ProjectShortcut
+                                label={translations.common.statblocks}
+                                href={`/${project.id}/statblocks`}
+                                count={counts.statblocks}
+                                Icon={OrigamiIcon}
                             />
                         </div>
                     </section>

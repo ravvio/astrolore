@@ -4,7 +4,7 @@
     import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
     import AppSidebar from "$lib/components/app-sidebar.svelte";
     import type { CollectionEntry } from "astro:content";
-    import { type CollectionItem, type Crumb } from "$lib/content-utils";
+    import { type CollectionItem, type ContentCounts, type Crumb } from "$lib/content-utils";
     import type { Translations } from "$lib/i18n";
 
     type Props = {
@@ -13,14 +13,7 @@
         categories: CollectionItem[];
         articles: CollectionItem[];
         documents: CollectionItem[];
-        counts: {
-            articles: number;
-            maps: number;
-            timelines: number;
-            documents: number;
-            handouts: number;
-            tables: number;
-        };
+        counts: ContentCounts;
         crumbs: Crumb[];
         pathname: string;
         translations: Translations;

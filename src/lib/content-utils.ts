@@ -16,6 +16,20 @@ export type Crumb = {
 };
 
 /**
+ * Content objects counts
+ */
+export type ContentCounts = {
+    categories: number;
+    articles: number;
+    maps: number;
+    timelines: number;
+    documents: number;
+    handouts: number;
+    tables: number;
+    statblocks: number;
+};
+
+/**
  * Get the entry slug from an entry id
  * ```
  * const id = 'test/categories/example';

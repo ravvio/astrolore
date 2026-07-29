@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import ContentLayout from "../../../layouts/ContentLayout.astro";
 import {
     projectFromId,
@@ -8,7 +8,6 @@ import {
     isLink,
     type Crumb,
 } from "$lib/content-utils";
-import { render, getEntry } from "astro:content";
 import Document from "$lib/components/content/Document.astro";
 import ContentHeading from "$lib/components/ContentHeading.astro";
 import { buildArticleMap } from "$lib/astro-content-utils";

@@ -4,7 +4,7 @@ import type { ImageFunction } from "astro:content";
 const CharacterBaseMetadata = (image: ImageFunction) =>
     z.object({
         type: z.literal("character"),
-        kind: z.null().default(null),
+        kind: z.null().optional().default(null),
 
         image: z.union([image(), z.url()]).optional(),
         creature: z.string().optional(),
@@ -37,7 +37,10 @@ const CharacterDivinityMetadata = (image: ImageFunction) =>
     });
 
 const CharacterMetadata = (image: ImageFunction) =>
-    z.union([CharacterBaseMetadata(image), CharacterDivinityMetadata(image)]);
+    z.discriminatedUnion("kind", [
+        CharacterBaseMetadata(image),
+        CharacterDivinityMetadata(image),
+    ]);
 export type CharacterMetadata = z.infer<ReturnType<typeof CharacterMetadata>>;
 
 const LocationBaseMetadata = (image: ImageFunction) =>
@@ -71,7 +74,10 @@ const LocationSettlementMetadata = (image: ImageFunction) =>
     });
 
 const LocationMetadata = (image: ImageFunction) =>
-    z.union([LocationBaseMetadata(image), LocationSettlementMetadata(image)]);
+    z.discriminatedUnion("kind", [
+        LocationBaseMetadata(image),
+        LocationSettlementMetadata(image),
+    ]);
 export type LocationMetadata = z.infer<ReturnType<typeof LocationMetadata>>;
 
 const HistoricKind = z.enum([
@@ -117,7 +123,7 @@ export type LanguageMetadata = z.infer<typeof LanguageMetadata>;
 const OrganizationBaseMetadata = (image: ImageFunction) =>
     z.object({
         type: z.literal("organization"),
-        kind: z.null().default(null),
+        kind: z.null().optional().default(null),
         symbol: z.union([image(), z.url()]).optional(),
 
         founders: z.string().array().optional(),
@@ -143,7 +149,7 @@ export type OrganizationCountryMetadata = z.infer<
 >;
 
 const OrganizationMetadata = (image: ImageFunction) =>
-    z.union([
+    z.discriminatedUnion("kind", [
         OrganizationBaseMetadata(image),
         OrganizationCountryMetadata(image),
     ]);
@@ -189,7 +195,7 @@ const FamilyMetadata = (image: ImageFunction) =>
 export type FamilyMetadata = z.infer<ReturnType<typeof FamilyMetadata>>;
 
 const ArticleMetadata = (image: ImageFunction) =>
-    z.union([
+    z.discriminatedUnion("type", [
         CharacterMetadata(image),
         LocationMetadata(image),
         HistoricMetadata(image),

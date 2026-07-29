@@ -1,4 +1,5 @@
-import type { Translations } from "../types";
+import type { Translations } from "../../types";
+import { dnd5e } from "./dnd5e";
 
 export const en: Translations = {
     common: {
@@ -21,9 +22,12 @@ export const en: Translations = {
         handouts: "Handouts",
         table: "Table",
         tables: "Tables",
+        statblock: "Statblock",
+        statblocks: "Statblocks",
         pinned: "Pinned",
         familyTree: "Family Tree",
         familyTrees: "Family Trees",
+        parent: "Parent Article",
     },
     theme: {
         label: "Theme",
@@ -148,5 +152,12 @@ export const en: Translations = {
         culture: {
             parentCulture: "Parent Culture",
         },
+    },
+    statblock: {
+        selectSystem: "Select system",
+        systems: {
+            dnd5e: "D&D 5e",
+        },
+        dnd5e,
     },
 };

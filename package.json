@@ -42,7 +42,7 @@
         "@fontsource-variable/space-grotesk": "^5.2.10",
         "@fontsource/im-fell-english": "^5.2.6",
         "@internationalized/date": "^3.12.1",
-        "@lucide/svelte": "^1.17.0",
+        "@lucide/svelte": "^1.26.0",
         "@tailwindcss/vite": "latest",
         "bits-ui": "^2.18.1",
         "clsx": "^2.1.1",

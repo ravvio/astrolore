@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
-import PaginatedDocumentsSearch from "$lib/components/paginated-documents-search.svelte";
+import PaginatedStatblocksSearch from "$lib/components/paginated-statblocks-search.svelte";
 import PageTitle from "$lib/components/PageTitle.astro";
 import { projectFromId, type Crumb } from "$lib/content-utils";
 import { getTranslations } from "$lib/i18n";
@@ -11,8 +11,8 @@ export async function getStaticPaths() {
 
     return Promise.all(
         projects.map(async (project) => {
-            const documents = await getCollection(
-                "documents",
+            const statblocks = await getCollection(
+                "statblocks",
                 ({ id }) => projectFromId(id) === project.id,
             );
             return {
@@ -21,14 +21,14 @@ export async function getStaticPaths() {
                 },
                 props: {
                     project: project,
-                    documents: documents,
+                    statblocks: statblocks,
                 },
             };
         }),
     );
 }
 
-const { project, documents } = Astro.props;
+const { project, statblocks } = Astro.props;
 
 const translations = getTranslations(project.data.language);
 const crumbs: Crumb[] = [
@@ -37,16 +37,20 @@ const crumbs: Crumb[] = [
         href: `/${project.id}`,
     },
     {
-        label: translations.common.documents,
-        href: `/${project.id}/documents`,
+        label: translations.common.statblocks,
+        href: `/${project.id}/statblocks`,
     },
 ];
 ---
 
-<Layout title={`${project.data.title} - Documents`} {crumbs} {project}>
-    <PageTitle>{translations.common.documents}</PageTitle>
-    <PaginatedDocumentsSearch
-        {documents}
+<Layout
+    title={`${project.data.title} - ${translations.common.statblocks}`}
+    {crumbs}
+    {project}
+>
+    <PageTitle>{translations.common.statblocks}</PageTitle>
+    <PaginatedStatblocksSearch
+        {statblocks}
         placeholder={translations.search.placeholder}
         client:idle
     />

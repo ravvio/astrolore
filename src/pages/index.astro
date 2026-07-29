@@ -20,31 +20,30 @@ const crumbs: Crumb[] = [
 ---
 
 <Layout title="Lore" crumbs={crumbs}>
-        {projects.length > 0 ? (
-        <div>
-            <PageTitle>
-                {translations.common.projects}
-            </PageTitle>
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {
-            projects.map((project) => (
-                <a href={`/${project.id}`} class="group/card block">
-                    <Item.Root variant="outline" class="">
-                        <Item.Header>
-                            <Item.Title>{project.data.title}</Item.Title>
-                        </Item.Header>
-                        <Item.Content class="text-muted-foreground line-clamp-3">
-                            <Item.Description>
-                                {project.data.description}
-                            </Item.Description>
-                        </Item.Content>
-                    </Item.Root>
-                </a>
-            ))
-        }
-    </div>
-        </div>
-    ) : (
+    {
+        projects.length > 0 ? (
+            <div>
+                <PageTitle>{translations.common.projects}</PageTitle>
+                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {projects.map((project) => (
+                        <a href={`/${project.id}`} class="group/card block">
+                            <Item.Root variant="outline" class="">
+                                <Item.Header>
+                                    <Item.Title>
+                                        {project.data.title}
+                                    </Item.Title>
+                                </Item.Header>
+                                <Item.Content class="text-muted-foreground line-clamp-3">
+                                    <Item.Description>
+                                        {project.data.description}
+                                    </Item.Description>
+                                </Item.Content>
+                            </Item.Root>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        ) : (
             <Empty.Root>
                 <Empty.Header>
                     <Empty.Media variant="icon">
@@ -56,6 +55,6 @@ const crumbs: Crumb[] = [
                     </Empty.Description>
                 </Empty.Header>
             </Empty.Root>
-    )
+        )
     }
 </Layout>

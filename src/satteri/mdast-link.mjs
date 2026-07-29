@@ -10,7 +10,6 @@ export const mdastLink = defineMdastPlugin({
                 .replace(/[\s$*_+~.()'"!\-:@]+/g, " ")
                 .replace(/\s+/g, "-")
                 .toLowerCase();
-            console.log(node.url, " => ", url);
             ctx.setProperty(node, "url", url);
         }
     },

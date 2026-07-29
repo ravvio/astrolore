@@ -75,6 +75,7 @@ src/content/
     ├── documents/
     ├── handouts/
     ├── maps/
+    ├── statblocks/
     ├── tables/
     └── timelines/
 ```
@@ -303,6 +304,16 @@ Embeds an interactive family tree starting from the character specified. The
 family tree is automatically populated by using the `parents`, `spouses` and
 `children` properties in the character metadata.
 
+#### Embedded Statblocks
+
+```md
+::statblock{#big-monster}
+```
+
+Embeds a creature statblock defined in the `statblocks` collection. If a
+statblock defines stats for more than one game system, a selector is shown to
+switch between them.
+
 ### Categories
 
 Categories group articles. MDX files in `categories/`:
@@ -429,3 +440,30 @@ src/content/my-world/tables/big-folk-names.json
 ```
 
 Embed tables in your articles using the `:table` directive.
+
+### Statblocks
+
+Creature statblocks for tabletop encounters. JSON files in `statblocks/`:
+
+```
+src/content/my-world/statblocks/big-monster.
+```
+
+**Data:**
+
+```yaml
+name: Big Monster
+description: An evil creature that lives near New City.
+image: https://placehold.co/600x400
+systems:
+    # stats for various systems
+```
+
+A statblock can define stats for multiple systems under `systems` at once the
+embedded component lets readers switch between them.
+
+Supported systems:
+
+- D&D 5e
+
+Embed statblocks in your articles using the `::statblock` directive.

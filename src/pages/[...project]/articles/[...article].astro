@@ -134,7 +134,7 @@ const crumbs: Crumb[] = [
                 parentArticle && (
                     <span class="text-sm">
                         <span class="text-foreground/80 font-semibold">
-                            Parent article:
+                            {translations.common.parent}
                         </span>
                         <a
                             href={`/${parentArticle.id}`}
@@ -148,7 +148,7 @@ const crumbs: Crumb[] = [
         </div>
     </ContentHeading>
 
-    <div class="mb-4 w-full md:float-right md:max-w-[360px] md:px-4">
+    <div class="mb-4 w-full lg:float-right lg:max-w-[360px] lg:px-4">
         <ArticleMeta {project} {articles} {article} />
     </div>
 

@@ -8,6 +8,66 @@ import { slugFromId, projectFromId } from "./content-utils";
 import { CustomDate } from "./custom-date";
 import type { HistoricKind } from "./schema/codex-article";
 
+export async function getProjectCollections(
+    project?: CollectionEntry<"projects">,
+) {
+    const [
+        categories,
+        articles,
+        maps,
+        timelines,
+        documents,
+        handouts,
+        tables,
+        statblocks,
+    ] = project
+        ? await Promise.all([
+              getCollection(
+                  "categories",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "articles",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "maps",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "timelines",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "documents",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "handouts",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "tables",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+              getCollection(
+                  "statblocks",
+                  ({ id }) => projectFromId(id) === project.id,
+              ),
+          ])
+        : [[], [], [], [], [], [], [], []];
+    return {
+        categories,
+        articles,
+        maps,
+        timelines,
+        documents,
+        handouts,
+        tables,
+        statblocks,
+    };
+}
+
 /**
  * Builds a lookup map keyed by `"{projectId}/{slug}"` and `"{projectId}/{alias}"`.
  * ```

@@ -8,6 +8,7 @@ import { mdastAbstract } from "./src/satteri/mdast-abstract.mjs";
 import { mdastDate } from "./src/satteri/mdast-date.mjs";
 import { mdastMapImage } from "./src/satteri/mdast-map-image.mjs";
 import { mdastRngTable } from "./src/satteri/mdast-rng-table.mjs";
+import { mdastStatblock } from "./src/satteri/mdast-statblock.mjs";
 import { mdastGoto } from "./src/satteri/mdast-goto.mjs";
 import { mdastTimeline } from "./src/satteri/mdast-timeline.mjs";
 import { mdastAbstractOf } from "./src/satteri/mdast-abstract-of.mjs";
@@ -35,6 +36,7 @@ export default defineConfig({
                 mdastTimeline,
                 mdastFamilyTree,
                 mdastRngTable,
+                mdastStatblock,
                 mdastGoto,
                 mdastAbstract,
                 mdastAbstractOf,

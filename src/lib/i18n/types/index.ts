@@ -1,3 +1,5 @@
+import type { Dnd5eTranslations } from "./dnd5e";
+
 export interface Translations {
     common: {
         lore: string;
@@ -19,9 +21,12 @@ export interface Translations {
         handouts: string;
         table: string;
         tables: string;
+        statblock: string;
+        statblocks: string;
         pinned: string;
         familyTree: string;
         familyTrees: string;
+        parent: string;
     };
     theme: {
         label: string;
@@ -146,5 +151,12 @@ export interface Translations {
         culture: {
             parentCulture: string;
         };
+    };
+    statblock: {
+        selectSystem: string;
+        systems: {
+            dnd5e: string;
+        };
+        dnd5e: Dnd5eTranslations;
     };
 }
