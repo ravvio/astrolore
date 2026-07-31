@@ -112,7 +112,7 @@ const crumbs: Crumb[] = [
 
         <div class="w-full lg:basis-2/5">
             {
-                (counts.maps > 0 || counts.documents > 0) && (
+                (counts.categories > 0 || counts.articles > 0 || counts.maps > 0 || counts.timelines > 0 || counts.documents > 0) && (
                     <section class="mt-8">
                         <span class="text-muted-foreground mb-3 text-xs font-semibold tracking-wider uppercase">
                             {translations.common.codex}
@@ -154,7 +154,7 @@ const crumbs: Crumb[] = [
             }
 
             {
-                counts.handouts > 0 && (
+                (counts.handouts > 0 || counts.tables > 0 || counts.statblocks > 0) && (
                     <section class="mt-4">
                         <span class="text-muted-foreground mb-3 text-xs font-semibold tracking-wider uppercase">
                             {translations.common.binder}
