@@ -22,6 +22,7 @@ const translations = getTranslations(project?.data.language);
             <BinderStatblock
                 data={statblock.data}
                 translations={translations}
+                preferredSystem={project?.data.preferredGameSystem}
                 client:idle
             />
         </div>

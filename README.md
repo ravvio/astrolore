@@ -72,9 +72,10 @@ pinned:
     - new-city
 ```
 
-
 `language` accepts `"en"` or `"it"`. `pinned` lists article slugs to feature
-on the project's homepage.
+on the project's homepage. `preferredGameSystem` picks which system a
+statblock's system-switcher defaults to when a statblock defines stats for
+more than one (see "Statblocks" below for supported systems).
 
 Then create the following directory structure (you can omit some if you don't
 need them):
@@ -477,5 +478,6 @@ embedded component lets readers switch between them.
 Supported systems:
 
 - D&D 5e
+- Shadowdark
 
 Embed statblocks in your articles using the `::statblock` directive.

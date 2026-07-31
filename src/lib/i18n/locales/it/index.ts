@@ -1,5 +1,6 @@
 import type { Translations } from "../../types";
 import { dnd5e } from "./dnd5e";
+import { shadowdark } from "./shadowdark";
 
 export const it: Translations = {
     common: {
@@ -157,7 +158,9 @@ export const it: Translations = {
         selectSystem: "Seleziona sistema",
         systems: {
             dnd5e: "D&D 5e",
+            shadowdark: "Shadowdark",
         },
         dnd5e,
+        shadowdark,
     },
 };

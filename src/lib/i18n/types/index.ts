@@ -1,4 +1,5 @@
 import type { Dnd5eTranslations } from "./dnd5e";
+import type { ShadowdarkTranslations } from "./shadowdark";
 
 export interface Translations {
     common: {
@@ -156,7 +157,9 @@ export interface Translations {
         selectSystem: string;
         systems: {
             dnd5e: string;
+            shadowdark: string;
         };
         dnd5e: Dnd5eTranslations;
+        shadowdark: ShadowdarkTranslations;
     };
 }

@@ -27,12 +27,18 @@ const articles = defineCollection({
 });
 
 const maps = defineCollection({
-    loader: glob({ pattern: "*/maps/*.(json|yaml|yml)", base: "./src/content" }),
+    loader: glob({
+        pattern: "*/maps/*.(json|yaml|yml)",
+        base: "./src/content",
+    }),
     schema: ({ image }) => MapImageSchema(image),
 });
 
 const timelines = defineCollection({
-    loader: glob({ pattern: "*/timelines/*.(json|yaml|yml)", base: "./src/content" }),
+    loader: glob({
+        pattern: "*/timelines/*.(json|yaml|yml)",
+        base: "./src/content",
+    }),
     schema: TimelineData,
 });
 
@@ -42,12 +48,18 @@ const documents = defineCollection({
 });
 
 const handouts = defineCollection({
-    loader: glob({ pattern: "*/handouts/*.(json|yaml|yml)", base: "./src/content" }),
+    loader: glob({
+        pattern: "*/handouts/*.(json|yaml|yml)",
+        base: "./src/content",
+    }),
     schema: HandoutData,
 });
 
 const tables = defineCollection({
-    loader: glob({ pattern: "*/tables/*.(json|yaml|yml)", base: "./src/content" }),
+    loader: glob({
+        pattern: "*/tables/*.(json|yaml|yml)",
+        base: "./src/content",
+    }),
     schema: TableData,
 });
 

@@ -2,29 +2,33 @@
     import * as Select from "$lib/components/ui/select/index.js";
     import * as Card from "$lib/components/ui/card/index.js";
     import StatblockDND5e from "./statblock-dnd5e.svelte";
-    import type { StatblockData } from "$lib/schema/binder-statblock";
+    import StatblockShadowdark from "./statblock-shadowdark.svelte";
+    import type { StatblockData, GameSystem } from "$lib/schema/binder-statblock";
     import type { Translations } from "$lib/i18n";
     import { getImageSrc } from "$lib/content-utils";
-
-    type StatblockSystem = keyof StatblockData["systems"];
 
     type Props = {
         data: StatblockData;
         translations: Translations;
+        preferredSystem?: GameSystem;
         showImage?: boolean;
     };
-    const { data, translations: t, showImage }: Props = $props();
+    const { data, translations: t, preferredSystem, showImage }: Props =
+        $props();
 
     const imgSrc = $derived(data.image ? getImageSrc(data.image) : undefined);
 
-    let selected = $state<StatblockSystem>();
+    let selected = $state<GameSystem>();
     const availableSystems = $derived(
         Object.keys(data.systems),
-    ) as StatblockSystem[];
+    ) as GameSystem[];
 
     $effect(() => {
         if (!selected && availableSystems.length) {
-            selected = availableSystems[0];
+            selected =
+                preferredSystem && availableSystems.includes(preferredSystem)
+                    ? preferredSystem
+                    : availableSystems[0];
         }
     });
 </script>
@@ -75,6 +79,11 @@
             <StatblockDND5e
                 stats={data.systems.dnd5e}
                 translations={t.statblock.dnd5e}
+            />
+        {:else if selected === "shadowdark" && data.systems.shadowdark}
+            <StatblockShadowdark
+                stats={data.systems.shadowdark}
+                translations={t.statblock.shadowdark}
             />
         {/if}
     </Card.Content>
