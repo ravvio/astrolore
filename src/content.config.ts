@@ -12,7 +12,7 @@ import { TableData } from "$lib/schema/binder-table";
 import { StatblockData } from "$lib/schema/binder-statblock";
 
 const projects = defineCollection({
-    loader: glob({ pattern: "*.json", base: "./src/content" }),
+    loader: glob({ pattern: "*.(json|yaml|yml)", base: "./src/content" }),
     schema: ProjectFrontmatter,
 });
 
@@ -27,12 +27,12 @@ const articles = defineCollection({
 });
 
 const maps = defineCollection({
-    loader: glob({ pattern: "*/maps/*.json", base: "./src/content" }),
+    loader: glob({ pattern: "*/maps/*.(json|yaml|yml)", base: "./src/content" }),
     schema: ({ image }) => MapImageSchema(image),
 });
 
 const timelines = defineCollection({
-    loader: glob({ pattern: "*/timelines/*.json", base: "./src/content" }),
+    loader: glob({ pattern: "*/timelines/*.(json|yaml|yml)", base: "./src/content" }),
     schema: TimelineData,
 });
 
@@ -42,12 +42,12 @@ const documents = defineCollection({
 });
 
 const handouts = defineCollection({
-    loader: glob({ pattern: "*/handouts/*.json", base: "./src/content" }),
+    loader: glob({ pattern: "*/handouts/*.(json|yaml|yml)", base: "./src/content" }),
     schema: HandoutData,
 });
 
 const tables = defineCollection({
-    loader: glob({ pattern: "*/tables/*.json", base: "./src/content" }),
+    loader: glob({ pattern: "*/tables/*.(json|yaml|yml)", base: "./src/content" }),
     schema: TableData,
 });
 

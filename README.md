@@ -49,7 +49,7 @@ docker run -p 8080:80 my-wiki
 
 ## Creating a World
 
-Each fictional world is a **project**. To add one, create a `<your-world>.json`
+Each fictional world is a **project**. To add one, create a `<your-world>.(json|yaml)`
 file inside `src/content` to contain your project metadata:
 
 ```json
@@ -60,6 +60,18 @@ file inside `src/content` to contain your project metadata:
     "pinned": ["john-smith", "new-city"]
 }
 ```
+
+or
+
+```yaml
+title: My World
+language: en
+description: A short description shown on the homepage.
+pinned:
+    - john-smith
+    - new-city
+```
+
 
 `language` accepts `"en"` or `"it"`. `pinned` lists article slugs to feature
 on the project's homepage.
@@ -80,7 +92,7 @@ src/content/
     └── timelines/
 ```
 
-The `<your-world>.json` file and the directory `<your-world>` **must** be named
+The `<your-world>.(json|yaml)` file and the directory `<your-world>` **must** be named
 the same. All content (other than the project metadata) follows the naming
 convention `src/content/<project>/<collection>/<slug>`.
 
@@ -93,7 +105,7 @@ project files contain uppercase letters.
 
 ### Custom Calendar
 
-Add a `calendar` object to your project JSON to define an in-world calendar.
+Add a `calendar` object to your project JSON/YAML to define an in-world calendar.
 Dates in article frontmatter and `:date[]` directives will render using it.
 
 ```json
@@ -352,10 +364,10 @@ title: "The Treaty of Ash"
 
 ### Maps
 
-Interactive Leaflet maps. JSON files in `maps/`:
+Interactive Leaflet maps. JSON/YAML files in `maps/`:
 
 ```
-src/content/my-world/handouts/sealed-letter.json
+src/content/my-world/handouts/sealed-letter.(json|yaml)
 ```
 
 ```json
@@ -376,10 +388,10 @@ used to reference articles (`link` is an article slug).
 ### Timelines
 
 Standalone timelines for important sequences of events. Work like embedded
-timelines, where the slug used is the filename. JSON files in `timelines/`:
+timelines, where the slug used is the filename. JSON/YAML files in `timelines/`:
 
 ```
-src/content/my-world/timelines/world-history.json
+src/content/my-world/timelines/world-history.(json|yaml)
 ```
 
 ```json
@@ -394,10 +406,10 @@ the `timelines` metadata array.
 
 ### Handouts
 
-Handouts are player-facing files (PDFs, images). JSON files in `handouts/`:
+Handouts are player-facing files (PDFs, images). JSON/YAML files in `handouts/`:
 
 ```
-src/content/my-world/handouts/sealed-letter.json
+src/content/my-world/handouts/sealed-letter.(json|yaml)
 ```
 
 **Data:**
@@ -410,14 +422,14 @@ src/content/my-world/handouts/sealed-letter.json
 }
 ```
 
-Place the referenced file alongside the JSON.
+Place the referenced file alongside the JSON/YAML.
 
 ### Tables
 
-Tables are lists of items to be used for random generation. JSON files in `tables/`:
+Tables are lists of items to be used for random generation. JSON/YAML files in `tables/`:
 
 ```
-src/content/my-world/tables/big-folk-names.json
+src/content/my-world/tables/big-folk-names.(json|yaml)
 ```
 
 **Data:**
@@ -443,10 +455,10 @@ Embed tables in your articles using the `:table` directive.
 
 ### Statblocks
 
-Creature statblocks for tabletop encounters. JSON files in `statblocks/`:
+Creature statblocks for tabletop encounters. JSON/YAML files in `statblocks/`:
 
 ```
-src/content/my-world/statblocks/big-monster.
+src/content/my-world/statblocks/big-monster.(json|yaml)
 ```
 
 **Data:**
