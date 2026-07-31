@@ -3,7 +3,7 @@
     import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
     import type { CollectionEntry } from "astro:content";
     import PaginatedItems from "./paginated-items.svelte";
-    import { BookOpenIcon, FileTextIcon, ScrollTextIcon } from "@lucide/svelte";
+    import DocumentKindIcon from "./document-kind-icon.svelte";
 
     type Props = {
         documents: CollectionEntry<"documents">[];
@@ -27,13 +27,7 @@
             {#snippet child({ props })}
                 <a href={`/${document.id}`} {...props}>
                     <Item.Media>
-                        {#if document.data.kind === "generic"}
-                            <FileTextIcon class="size-4" />
-                        {:else if document.data.kind === "diary"}
-                            <BookOpenIcon class="size-4" />
-                        {:else if document.data.kind === "letter"}
-                            <ScrollTextIcon class="size-4" />
-                        {/if}
+                        <DocumentKindIcon kind={document.data.kind} class="size-4" />
                     </Item.Media>
                     <Item.Content>
                         <Item.Title class="flex flex-row">

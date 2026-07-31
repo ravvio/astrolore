@@ -1,16 +1,10 @@
 ---
-import { getCollection, getEntry, render } from "astro:content";
+import { getCollection, render } from "astro:content";
 import ContentLayout from "../../../layouts/ContentLayout.astro";
-import {
-    projectFromId,
-    slugFromId,
-    stripLink,
-    isLink,
-    type Crumb,
-} from "$lib/content-utils";
+import { slugFromId, stripLink, isLink, type Crumb } from "$lib/content-utils";
 import Document from "$lib/components/content/Document.astro";
 import ContentHeading from "$lib/components/ContentHeading.astro";
-import { buildArticleMap } from "$lib/astro-content-utils";
+import { buildArticleMap, getProjectFromId } from "$lib/astro-content-utils";
 import { getTranslations } from "$lib/i18n";
 
 export async function getStaticPaths() {
@@ -21,22 +15,19 @@ export async function getStaticPaths() {
 
     return Promise.all(
         documents.map(async (document) => {
-            const projectId = projectFromId(document.id);
             const documentSlug = slugFromId(document.id);
-
-            const project = await getEntry("projects", projectId);
-            if (!project) throw `No project with id ${projectId}`;
+            const project = await getProjectFromId(document.id);
 
             const author =
                 document.data.author && isLink(document.data.author)
                     ? articleMap.get(
-                          `${projectId}/${stripLink(document.data.author)}`,
+                          `${project.id}/${stripLink(document.data.author)}`,
                       )
                     : null;
 
             return {
                 params: {
-                    project: projectId,
+                    project: project.id,
                     document: documentSlug,
                 },
                 props: {

@@ -73,7 +73,6 @@
     <Card.Content class="text-sm">
         {#if selected === "dnd5e" && data.systems.dnd5e}
             <StatblockDND5e
-                {data}
                 stats={data.systems.dnd5e}
                 translations={t.statblock.dnd5e}
             />

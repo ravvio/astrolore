@@ -1,16 +1,9 @@
 import { defineMdastPlugin } from "satteri";
+import { reportUnexpectedForm } from "./mdast-directive-utils.mjs";
 
 export const mdastDate = defineMdastPlugin({
     name: "date",
     textDirective(node, ctx) {
-        if (
-            (node.type !== "containerDirective" &&
-                node.type !== "leafDirective" &&
-                node.type !== "textDirective") ||
-            node.name !== "date"
-        )
-            return;
-
         if (!node.children[0] || typeof node.children[0].value !== "string") {
             ctx.report({
                 message: "Missing or wrong children for `:date` directive",
@@ -31,11 +24,7 @@ export const mdastDate = defineMdastPlugin({
     },
     leafDirective(node, ctx) {
         if (node.name === "date") {
-            ctx.report({
-                message: "Unexpected `::date` leaf directive",
-                node,
-                severity: "error",
-            });
+            reportUnexpectedForm(ctx, node, "::date");
             return;
         }
     },

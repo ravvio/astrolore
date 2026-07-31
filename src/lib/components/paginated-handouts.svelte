@@ -2,13 +2,8 @@
   import * as Item from "$lib/components/ui/item/index.js";
   import type { CollectionEntry } from "astro:content";
   import PaginatedItems from "./paginated-items.svelte";
-  import {
-    BookOpenIcon,
-    BookTextIcon,
-    FileTextIcon,
-    NewspaperIcon,
-    PaperclipIcon,
-  } from "@lucide/svelte";
+  import { PaperclipIcon } from "@lucide/svelte";
+  import HandoutKindIcon from "./handout-kind-icon.svelte";
 
   type Props = {
     handouts: (CollectionEntry<"handouts"> & { url: string })[];
@@ -31,15 +26,7 @@
         {#snippet child({ props })}
           <a href={handout.url} target="_blank" {...props}>
             <Item.Media>
-              {#if handout.data.kind === "generic"}
-                <FileTextIcon class="size-4" />
-              {:else if handout.data.kind === "guide"}
-                <BookOpenIcon class="size-4" />
-              {:else if handout.data.kind === "book"}
-                <BookTextIcon class="size-4" />
-              {:else if handout.data.kind === "newspaper"}
-                <NewspaperIcon class="size-4" />
-              {/if}
+              <HandoutKindIcon kind={handout.data.kind} class="size-4" />
             </Item.Media>
             <Item.Content>
               <Item.Title>{handout.data.title}</Item.Title>

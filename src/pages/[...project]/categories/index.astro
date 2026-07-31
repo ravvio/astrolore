@@ -1,7 +1,8 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
-import { slugFromId, projectFromId, type Crumb } from "$lib/content-utils";
+import { slugFromId, type Crumb } from "$lib/content-utils";
+import { getProjectCollection } from "$lib/astro-content-utils";
 import { getTranslations } from "$lib/i18n";
 import * as Item from "$lib/components/ui/item/index.js";
 import * as Empty from "$lib/components/ui/empty/index.js";
@@ -11,53 +12,41 @@ import { LibraryBigIcon } from "@lucide/svelte";
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
 
-    return Promise.all(
-        projects.map(async (project) => {
-            const categories = await getCollection(
-                "categories",
-                ({ id }) => projectFromId(id) === project.id,
-            );
-            const articles = await getCollection(
-                "articles",
-                ({ id }) => projectFromId(id) === project.id,
-            );
-
-            const categoryList = await Promise.all(
-                categories.map(async (category) => {
-                    const slug = slugFromId(category.id);
-                    const articleCount = articles.filter(
-                        (article) => article.data.category === slug,
-                    ).length;
-
-                    const { remarkPluginFrontmatter } = await render(category);
-                    const description = remarkPluginFrontmatter.abstract;
-
-                    return {
-                        id: category.id,
-                        title: category.data.title,
-                        href: `/${category.id}`,
-                        articleCount,
-                        description,
-                    };
-                }),
-            );
-
-            categoryList.sort((a, b) => a.title.localeCompare(b.title));
-
-            return {
-                params: {
-                    project: project.id,
-                },
-                props: {
-                    project,
-                    categories: categoryList,
-                },
-            };
-        }),
-    );
+    return projects.map((project) => ({
+        params: {
+            project: project.id,
+        },
+        props: {
+            project,
+        },
+    }));
 }
 
-const { project, categories } = Astro.props;
+const { project } = Astro.props;
+
+const articles = await getProjectCollection(project.id, "articles");
+const categories = await Promise.all(
+    (await getProjectCollection(project.id, "categories")).map(
+        async (category) => {
+            const slug = slugFromId(category.id);
+            const articleCount = articles.filter(
+                (article) => article.data.category === slug,
+            ).length;
+
+            const { remarkPluginFrontmatter } = await render(category);
+            const description = remarkPluginFrontmatter.abstract;
+
+            return {
+                id: category.id,
+                title: category.data.title,
+                href: `/${category.id}`,
+                articleCount,
+                description,
+            };
+        },
+    ),
+);
+categories.sort((a, b) => a.title.localeCompare(b.title));
 
 const translations = getTranslations(project.data.language);
 const crumbs: Crumb[] = [

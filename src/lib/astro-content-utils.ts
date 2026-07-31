@@ -3,10 +3,26 @@ import {
     getEntry,
     render,
     type CollectionEntry,
+    type DataEntryMap,
 } from "astro:content";
 import { slugFromId, projectFromId } from "./content-utils";
 import { CustomDate } from "./custom-date";
 import type { HistoricKind } from "./schema/codex-article";
+
+/**
+ * Retrieve all items of a collection that math the given project id.
+ * ```
+ * const articles = getProjectCollection(project)
+ */
+export async function getProjectCollection<C extends keyof DataEntryMap>(
+    projectId: string,
+    collection: C,
+): Promise<CollectionEntry<C>[]> {
+    return getCollection(
+        collection,
+        ({ id }) => projectFromId(id) === projectId,
+    );
+}
 
 export async function getProjectCollections(
     project?: CollectionEntry<"projects">,
@@ -22,38 +38,14 @@ export async function getProjectCollections(
         statblocks,
     ] = project
         ? await Promise.all([
-              getCollection(
-                  "categories",
-                  ({ id }) => projectFromId(id) === project.id,
-              ),
-              getCollection(
-                  "articles",
-                  ({ id }) => projectFromId(id) === project.id,
-              ),
-              getCollection(
-                  "maps",
-                  ({ id }) => projectFromId(id) === project.id,
-              ),
-              getCollection(
-                  "timelines",
-                  ({ id }) => projectFromId(id) === project.id,
-              ),
-              getCollection(
-                  "documents",
-                  ({ id }) => projectFromId(id) === project.id,
-              ),
-              getCollection(
-                  "handouts",
-                  ({ id }) => projectFromId(id) === project.id,
-              ),
-              getCollection(
-                  "tables",
-                  ({ id }) => projectFromId(id) === project.id,
-              ),
-              getCollection(
-                  "statblocks",
-                  ({ id }) => projectFromId(id) === project.id,
-              ),
+              getProjectCollection(project.id, "categories"),
+              getProjectCollection(project.id, "articles"),
+              getProjectCollection(project.id, "maps"),
+              getProjectCollection(project.id, "timelines"),
+              getProjectCollection(project.id, "documents"),
+              getProjectCollection(project.id, "handouts"),
+              getProjectCollection(project.id, "tables"),
+              getProjectCollection(project.id, "statblocks"),
           ])
         : [[], [], [], [], [], [], [], []];
     return {
@@ -87,6 +79,20 @@ export function buildArticleMap(
         }
     }
     return map;
+}
+
+/**
+ * Retrieve the project from the id of a another collection item. Throws if
+ * the project cannot be found.
+ * ```
+ * const project = await getProjectFromId(article.id);
+ * ```
+ */
+export async function getProjectFromId(id: string) {
+    const projectId = projectFromId(id);
+    const project = await getEntry("projects", projectId);
+    if (!project) throw `No project with id ${projectId}`;
+    return project;
 }
 
 /**

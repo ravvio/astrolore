@@ -8,7 +8,7 @@ import ContentHeading from "$lib/components/ContentHeading.astro";
 import * as Card from "$lib/components/ui/card/index.js";
 import PaginatedArticles from "$lib/components/paginated-articles.svelte";
 import ArticleMeta from "$lib/components/article-meta/ArticleMeta.astro";
-import { buildArticleMap } from "$lib/astro-content-utils";
+import { buildArticleMap, getProjectFromId } from "$lib/astro-content-utils";
 import { getTranslations } from "$lib/i18n";
 
 export async function getStaticPaths() {
@@ -35,38 +35,35 @@ export async function getStaticPaths() {
 
     return Promise.all(
         articles.map(async (article) => {
-            const projectId = projectFromId(article.id);
             const articleSlug = slugFromId(article.id);
-
-            const project = await getEntry("projects", projectId);
-            if (!project) throw `No project with id ${projectId}`;
+            const project = await getProjectFromId(article.id);
 
             const childrenArticles = childrenOf.get(
-                `${projectId}/${articleSlug}`,
+                `${project.id}/${articleSlug}`,
             );
             const parentArticle = article.data.parent
-                ? articleMap.get(`${projectId}/${article.data.parent}`)
+                ? articleMap.get(`${project.id}/${article.data.parent}`)
                 : undefined;
 
             const category = article.data.category
                 ? await getEntry(
                       "categories",
-                      `${projectId}/categories/${article.data.category}`,
+                      `${project.id}/categories/${article.data.category}`,
                   )
                 : undefined;
             if (article.data.category && !category) {
-                throw `No category with id '${projectId}/categories/${article.data.category}'`;
+                throw `No category with id '${project.id}/categories/${article.data.category}'`;
             }
 
             return {
                 params: {
-                    project: projectId,
+                    project: project.id,
                     article: articleSlug,
                 },
                 props: {
                     project: project,
                     category: category,
-                    articles: ofProject.get(projectId) ?? [],
+                    articles: ofProject.get(project.id) ?? [],
                     article: article,
                     childrenArticles: childrenArticles ?? [],
                     parentArticle: parentArticle,

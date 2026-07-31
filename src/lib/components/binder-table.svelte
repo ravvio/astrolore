@@ -1,10 +1,10 @@
 <script lang="ts">
     import * as Table from "$lib/components/ui/table/index.js";
     import * as Card from "$lib/components/ui/card/index.js";
-    import { Badge } from "./ui/badge";
+    import { Badge } from "$lib/components/ui/badge";
     import type { TableData, TableItem } from "$lib/schema/binder-table";
     import { DicesIcon } from "@lucide/svelte";
-    import Button from "./ui/button/button.svelte";
+    import Button from "$lib/components/ui/button/button.svelte";
     import { cn } from "$lib/utils";
 
     type Props = {

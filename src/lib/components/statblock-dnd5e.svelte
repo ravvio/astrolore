@@ -1,12 +1,10 @@
 <script lang="ts">
     import { Separator } from "$lib/components/ui/separator/index.js";
-    import type { StatblockData } from "$lib/schema/binder-statblock";
     import type { Translations } from "$lib/i18n";
     import { DotIcon } from "@lucide/svelte";
     import { StatblockDND5eData } from "$lib/schema/statblocks/dnd5e";
 
     type Props = {
-        data: StatblockData;
         stats: StatblockDND5eData;
         translations: Translations["statblock"]["dnd5e"];
     };

@@ -15,7 +15,3 @@ export type WithoutChildrenOrChild<T> = WithoutChildren<WithoutChild<T>>;
 export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & {
     ref?: U | null;
 };
-
-export function capitalize(value: string) {
-    return value.charAt(0).toUpperCase() + value.slice(1);
-}

@@ -1,14 +1,10 @@
 ---
-import { getCollection, getEntry } from "astro:content";
-import {
-    slugFromId,
-    projectFromId,
-    getImageSrc,
-    type Crumb,
-} from "$lib/content-utils";
+import { getCollection } from "astro:content";
+import { slugFromId, getImageSrc, type Crumb } from "$lib/content-utils";
 import MapImage from "$lib/components/map-image/map-image.svelte";
 import ContentLayout from "../../../layouts/ContentLayout.astro";
 import ContentHeading from "$lib/components/ContentHeading.astro";
+import { getProjectFromId } from "$lib/astro-content-utils";
 import { getTranslations } from "$lib/i18n";
 
 export async function getStaticPaths() {
@@ -16,15 +12,12 @@ export async function getStaticPaths() {
 
     return Promise.all(
         maps.map(async (map) => {
-            const projectId = projectFromId(map.id);
             const mapSlug = slugFromId(map.id);
-
-            const project = await getEntry("projects", projectId);
-            if (!project) throw `No project found for id ${projectId}`;
+            const project = await getProjectFromId(map.id);
 
             return {
                 params: {
-                    project: projectId,
+                    project: project.id,
                     map: mapSlug,
                 },
                 props: {

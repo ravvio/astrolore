@@ -1,12 +1,13 @@
 import { z } from "astro/zod";
 import type { ImageFunction } from "astro:content";
+import { ImageOrUrl } from "./common";
 
 const CharacterBaseMetadata = (image: ImageFunction) =>
     z.object({
         type: z.literal("character"),
         kind: z.null().optional().default(null),
 
-        image: z.union([image(), z.url()]).optional(),
+        image: ImageOrUrl(image).optional(),
         creature: z.string().optional(),
 
         titles: z.string().array().optional(),
@@ -46,7 +47,7 @@ export type CharacterMetadata = z.infer<ReturnType<typeof CharacterMetadata>>;
 const LocationBaseMetadata = (image: ImageFunction) =>
     z.object({
         type: z.literal("location"),
-        image: z.union([image(), z.url()]).optional(),
+        image: ImageOrUrl(image).optional(),
         kind: z
             .enum([
                 "cosmic",
@@ -100,7 +101,7 @@ const HistoricMetadata = (image: ImageFunction) =>
     z.object({
         type: z.literal("historic"),
         kind: HistoricKind.optional(),
-        image: z.union([image(), z.url()]).optional(),
+        image: ImageOrUrl(image).optional(),
         timelines: z.string().array().optional(),
         date: z.union([HistoricEvent, HistoricPeriod]).optional(),
     });
@@ -124,7 +125,7 @@ const OrganizationBaseMetadata = (image: ImageFunction) =>
     z.object({
         type: z.literal("organization"),
         kind: z.null().optional().default(null),
-        symbol: z.union([image(), z.url()]).optional(),
+        symbol: ImageOrUrl(image).optional(),
 
         founders: z.string().array().optional(),
         leaders: z.string().array().optional(),
@@ -180,7 +181,7 @@ const CreatureMetadata = (image: ImageFunction) =>
     z.object({
         type: z.literal("creature"),
         parentCreature: z.string().optional(),
-        image: z.union([image(), z.url()]).optional(),
+        image: ImageOrUrl(image).optional(),
         kind: CreatureKind.optional(),
         locations: z.string().array().optional(),
     });
@@ -189,7 +190,7 @@ export type CreatureMetadata = z.infer<ReturnType<typeof CreatureMetadata>>;
 const FamilyMetadata = (image: ImageFunction) =>
     z.object({
         type: z.literal("family"),
-        emblem: z.union([image(), z.url()]).optional(),
+        emblem: ImageOrUrl(image).optional(),
         head: z.string().optional(),
     });
 export type FamilyMetadata = z.infer<ReturnType<typeof FamilyMetadata>>;

@@ -6,11 +6,12 @@
     type Props = {
         placeholder: string;
         tables: CollectionEntry<"tables">[];
+        perPage?: number;
     };
 
-    let { placeholder, tables }: Props = $props();
+    let { placeholder, tables, perPage }: Props = $props();
     let query = $state("");
 </script>
 
 <PaginationSearch bind:query={query} {placeholder} />
-<PaginatedTables {tables} query={query} />
+<PaginatedTables {tables} {perPage} query={query} />

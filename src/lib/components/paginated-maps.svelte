@@ -15,9 +15,10 @@
 <PaginatedItems
   items={query
     ? maps.filter((m) => {
+        const q = query.toLowerCase();
         return (
-          (m.data.name?.toLowerCase().includes(query.toLowerCase()) ?? false) ||
-          (m.data.description?.toLowerCase().includes(query.toLowerCase()) ?? false)
+          (m.data.name?.toLowerCase().includes(q) ?? false) ||
+          (m.data.description?.toLowerCase().includes(q) ?? false)
         );
       })
     : maps}

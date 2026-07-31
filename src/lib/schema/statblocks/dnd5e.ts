@@ -69,6 +69,15 @@ export type StatblockDND5eSpellcasting = z.infer<
     typeof StatblockDND5eSpellcasting
 >;
 
+export const StatblockDND5eFeature = z
+    .object({
+        name: z.string(),
+        description: z.string(),
+    })
+    .array()
+    .default([]);
+export type StatblockDND5eFeature = z.infer<typeof StatblockDND5eFeature>;
+
 export const StatblockDND5eLegendaryActions = z.object({
     // Flavor/rules text, e.g. "The dragon can take 3 legendary actions...".
     description: z.string().optional(),
@@ -203,35 +212,10 @@ export const StatblockDND5eData = z.object({
 
     spellcasting: StatblockDND5eSpellcasting.array().default([]),
 
-    traits: z
-        .object({
-            name: z.string(),
-            description: z.string(),
-        })
-        .array()
-        .default([]),
-    actions: z
-        .object({
-            name: z.string(),
-            description: z.string(),
-        })
-        .array()
-        .default([]),
-    bonusActions: z
-        .object({
-            name: z.string(),
-            description: z.string(),
-        })
-        .array()
-        .default([]),
-    reactions: z
-        .object({
-            name: z.string(),
-            description: z.string(),
-        })
-        .array()
-        .default([]),
-
+    traits: StatblockDND5eFeature,
+    actions: StatblockDND5eFeature,
+    bonusActions: StatblockDND5eFeature,
+    reactions: StatblockDND5eFeature,
     legendaryActions: StatblockDND5eLegendaryActions.optional(),
     lairActions: StatblockDND5eLairActions.optional(),
 });

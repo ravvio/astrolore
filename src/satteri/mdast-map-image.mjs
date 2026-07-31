@@ -1,14 +1,14 @@
 import { defineMdastPlugin } from "satteri";
+import {
+    reportMissingId,
+    reportUnexpectedForm,
+} from "./mdast-directive-utils.mjs";
 
 export const mdastMapImage = defineMdastPlugin({
     name: "mapImage",
     textDirective(node, ctx) {
         if (node.name === "map") {
-            ctx.report({
-                message: "Unexpected `:map` directive",
-                node,
-                severity: "error",
-            });
+            reportUnexpectedForm(ctx, node, ":map");
         }
     },
     leafDirective(node, ctx) {
@@ -19,11 +19,7 @@ export const mdastMapImage = defineMdastPlugin({
         const id = attributes.id;
 
         if (!id) {
-            ctx.report({
-                message: "Missing `id` on `::map` directive",
-                node,
-                severity: "error",
-            });
+            reportMissingId(ctx, node, "map");
             return;
         }
 
