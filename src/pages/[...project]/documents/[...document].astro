@@ -61,7 +61,11 @@ const crumbs: Crumb[] = [
 ];
 ---
 
-<ContentLayout title={project.data.title} {crumbs} {project}>
+<ContentLayout
+    title=`${project.data.title} - ${document.data.title}`
+    {crumbs}
+    {project}
+>
     <ContentHeading slot="heading" id={slug}>
         {document.data.title}
         <div slot="data">

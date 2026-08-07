@@ -51,7 +51,7 @@ const crumbs: Crumb[] = [
 
 <ContentLayout
     project={project}
-    title={`${project.data.title} - Maps`}
+    title={`${project.data.title} - ${map.data.name ?? translations.common.map}`}
     {crumbs}
     needsLeaflet
 >
