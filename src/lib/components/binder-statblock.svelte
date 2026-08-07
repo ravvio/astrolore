@@ -3,6 +3,7 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import StatblockDND5e from "./statblock-dnd5e.svelte";
     import StatblockShadowdark from "./statblock-shadowdark.svelte";
+    import StatblockPathfinder1e from "./statblock-pathfinder1e.svelte";
     import type { StatblockData, GameSystem } from "$lib/schema/binder-statblock";
     import type { Translations } from "$lib/i18n";
     import { getImageSrc } from "$lib/content-utils";
@@ -54,7 +55,7 @@
                     type="single"
                     value={selected}
                     onValueChange={(value) =>
-                        (selected = value as StatblockSystem)}
+                        (selected = value as GameSystem)}
                 >
                     <Select.Trigger class="w-40">
                         {selected
@@ -84,6 +85,11 @@
             <StatblockShadowdark
                 stats={data.systems.shadowdark}
                 translations={t.statblock.shadowdark}
+            />
+        {:else if selected === "pathfinder1e" && data.systems.pathfinder1e}
+            <StatblockPathfinder1e
+                stats={data.systems.pathfinder1e}
+                translations={t.statblock.pathfinder1e}
             />
         {/if}
     </Card.Content>

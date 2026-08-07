@@ -479,5 +479,6 @@ Supported systems:
 
 - D&D 5e
 - Shadowdark
+- Pathfinder 1e
 
 Embed statblocks in your articles using the `::statblock` directive.

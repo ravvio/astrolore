@@ -1,5 +1,15 @@
 import { z } from "astro/zod";
 
+export const DND5eSize = z.enum([
+    "tiny",
+    "small",
+    "medium",
+    "large",
+    "huge",
+    "gargantuan",
+]);
+export type DND5eSize = z.infer<typeof DND5eSize>;
+
 export const DND5eAbility = z.enum([
     "strength",
     "dexterity",
@@ -79,12 +89,10 @@ export const StatblockDND5eFeature = z
 export type StatblockDND5eFeature = z.infer<typeof StatblockDND5eFeature>;
 
 export const StatblockDND5eLegendaryActions = z.object({
-    // Flavor/rules text, e.g. "The dragon can take 3 legendary actions...".
     description: z.string().optional(),
     actions: z
         .object({
             name: z.string(),
-            // Number of legendary actions this option uses.
             cost: z.int().positive().default(1),
             description: z.string(),
         })
@@ -96,7 +104,6 @@ export type StatblockDND5eLegendaryActions = z.infer<
 >;
 
 export const StatblockDND5eLairActions = z.object({
-    // Flavor/rules text, e.g. "On initiative count 20...".
     description: z.string().optional(),
     actions: z
         .object({
@@ -110,52 +117,47 @@ export type StatblockDND5eLairActions = z.infer<
 >;
 
 export const StatblockDND5eData = z.object({
-    size: z.enum(["tiny", "small", "medium", "large", "huge", "gargantuan"]),
+    size: DND5eSize,
     type: z.string(),
     alignment: z.string().optional(),
 
     proficiency: z.number(),
 
-    // Either a standard CR string ("1/8", "1/4", "1/2", "0"-"30") or a plain
-    // number (0.125, 0.25, 0.5, 0-30)
-    challengeRating: z.union([
-        z.enum([
-            "0",
-            "1/8",
-            "1/4",
-            "1/2",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30",
-        ]),
-        z.number().min(0).max(30),
+    challengeRating: z.enum([
+        "0",
+        "1/8",
+        "1/4",
+        "1/2",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
     ]),
 
     hp: z.string().optional(),

@@ -43,7 +43,11 @@ const crumbs: Crumb[] = [
 ];
 ---
 
-<Layout title={`${project.data.title} - Documents`} {crumbs} {project}>
+<Layout
+    title={`${project.data.title} - ${translations.common.documents}`}
+    {crumbs}
+    {project}
+>
     <PageTitle>{translations.common.documents}</PageTitle>
     <PaginatedDocumentsSearch
         {documents}

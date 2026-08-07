@@ -1,5 +1,6 @@
 import type { Dnd5eTranslations } from "./dnd5e";
 import type { ShadowdarkTranslations } from "./shadowdark";
+import type { Pathfinder1eTranslations } from "./pathfinder1e";
 
 export interface Translations {
     common: {
@@ -158,8 +159,10 @@ export interface Translations {
         systems: {
             dnd5e: string;
             shadowdark: string;
+            pathfinder1e: string;
         };
         dnd5e: Dnd5eTranslations;
         shadowdark: ShadowdarkTranslations;
+        pathfinder1e: Pathfinder1eTranslations;
     };
 }

@@ -50,59 +50,42 @@
         { key: "persuasion", ability: "charisma" },
     ];
 
-    const CR_XP: Record<number, number> = {
-        0: 10,
-        0.125: 25,
-        0.25: 50,
-        0.5: 100,
-        1: 200,
-        2: 450,
-        3: 700,
-        4: 1100,
-        5: 1800,
-        6: 2300,
-        7: 2900,
-        8: 3900,
-        9: 5000,
-        10: 5900,
-        11: 7200,
-        12: 8400,
-        13: 10000,
-        14: 11500,
-        15: 13000,
-        16: 15000,
-        17: 18000,
-        18: 20000,
-        19: 22000,
-        20: 25000,
-        21: 33000,
-        22: 41000,
-        23: 50000,
-        24: 62000,
-        25: 75000,
-        26: 90000,
-        27: 105000,
-        28: 120000,
-        29: 135000,
-        30: 155000,
+    const CR_XP: Record<StatblockDND5eData["challengeRating"], number> = {
+        "0": 10,
+        "1/8": 25,
+        "1/4": 50,
+        "1/2": 100,
+        "1": 200,
+        "2": 450,
+        "3": 700,
+        "4": 1100,
+        "5": 1800,
+        "6": 2300,
+        "7": 2900,
+        "8": 3900,
+        "9": 5000,
+        "10": 5900,
+        "11": 7200,
+        "12": 8400,
+        "13": 10000,
+        "14": 11500,
+        "15": 13000,
+        "16": 15000,
+        "17": 18000,
+        "18": 20000,
+        "19": 22000,
+        "20": 25000,
+        "21": 33000,
+        "22": 41000,
+        "23": 50000,
+        "24": 62000,
+        "25": 75000,
+        "26": 90000,
+        "27": 105000,
+        "28": 120000,
+        "29": 135000,
+        "30": 155000,
     };
-
-    const CR_FRACTIONS: Record<number, string> = {
-        0.125: "1/8",
-        0.25: "1/4",
-        0.5: "1/2",
-    };
-    function crToNumber(cr: string | number) {
-        if (typeof cr === "number") return cr;
-        if (cr === "1/8") return 0.125;
-        if (cr === "1/4") return 0.25;
-        if (cr === "1/2") return 0.5;
-        return Number(cr);
-    }
-    function formatCR(cr: string | number) {
-        if (typeof cr === "string") return cr;
-        return CR_FRACTIONS[cr] ?? `${cr}`;
-    }
 
     function skillBonus(
         ability: keyof StatblockDND5eData["abilityScores"],
@@ -245,9 +228,9 @@
         {/if}
         <div>
             <span class="font-semibold">{tr.challenge}</span>
-            {formatCR(stats.challengeRating)} ({CR_XP[
-                crToNumber(stats.challengeRating)
-            ]?.toLocaleString()} XP)
+            {stats.challengeRating} ({CR_XP[
+                stats.challengeRating
+            ].toLocaleString()} XP)
         </div>
     </div>
 
@@ -357,7 +340,7 @@
     {#if stats.legendaryActions && (stats.legendaryActions.description || stats.legendaryActions.actions.length)}
         <Separator />
         <div class="flex flex-col gap-2">
-            <h4 class="text-base font-semibold">{tr.legendaryActions}</h4>
+            <span class="text-base font-semibold">{tr.legendaryActions}</span>
             {#if stats.legendaryActions.description}
                 <p>{stats.legendaryActions.description}</p>
             {/if}
@@ -377,7 +360,7 @@
     {#if stats.lairActions && (stats.lairActions.description || stats.lairActions.actions.length)}
         <Separator />
         <div class="flex flex-col gap-2">
-            <h4 class="text-base font-semibold">{tr.lairActions}</h4>
+            <span class="text-base font-semibold">{tr.lairActions}</span>
             {#if stats.lairActions.description}
                 <p>{stats.lairActions.description}</p>
             {/if}
