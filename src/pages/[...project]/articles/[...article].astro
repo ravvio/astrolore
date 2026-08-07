@@ -145,9 +145,13 @@ const crumbs: Crumb[] = [
         </div>
     </ContentHeading>
 
-    <div class="mb-4 w-full lg:float-right lg:max-w-[360px] lg:px-4">
-        <ArticleMeta {project} {articles} {article} />
-    </div>
+    {
+        article.data.meta?.type && (
+            <div class="mb-4 w-full lg:float-right lg:max-w-[360px] lg:px-4">
+                <ArticleMeta {project} {articles} {article} />
+            </div>
+        )
+    }
 
     <Article {Content} />
     {
