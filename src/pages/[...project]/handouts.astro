@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 
-const files = import.meta.glob<string>("/src/content/*/handouts/**/*.!(json)", {
+const files = import.meta.glob<string>("/src/content/*/handouts/**/*", {
     query: "?url",
     import: "default",
     eager: true,
