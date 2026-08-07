@@ -256,6 +256,13 @@ You can also use wiki style links (like in Obsidian):
 
 where the slug (the-great-war) is automatically generated.
 
+If the referenced value is a valid URL, the link is flagged as external and
+opens the page in a new tab:
+
+```
+[Example](https://example.com)
+```
+
 #### In-World Date
 
 ```md

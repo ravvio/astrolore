@@ -1,24 +1,24 @@
 ---
+import { ExternalLinkIcon } from "@lucide/svelte";
+import ArticleInternalLink from "./ArticleInternalLink.astro";
+import { isURL } from "$lib/content-utils";
 import { Badge } from "$lib/components/ui/badge/index.js";
-import { getAbstract, getArticleFromSlug } from "$lib/astro-content-utils";
-import ArticleHoverCard from "$lib/components/article-hover-card.svelte";
 
 type Props = {
     href: string;
 };
 const { href } = Astro.props;
-
-const projectId = Astro.url.pathname.split("/")[1];
-const article = await getArticleFromSlug(projectId, href);
-const abstract = await getAbstract(article);
 ---
 
-<ArticleHoverCard {article} {abstract} client:only>
-    <Badge
-        variant="outline"
-        class="text-sm"
-        href={article ? `/${article.id}` : undefined}
-    >
-        <slot />
-    </Badge>
-</ArticleHoverCard>
+{
+    isURL(href) ? (
+        <Badge variant="outline" class="text-sm" href={href} target="_blank">
+            <ExternalLinkIcon />
+            <slot />
+        </Badge>
+    ) : (
+        <ArticleInternalLink slug={decodeURIComponent(href)}>
+            <slot />
+        </ArticleInternalLink>
+    )
+}

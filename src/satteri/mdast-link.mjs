@@ -4,7 +4,10 @@ import { defineMdastPlugin } from "satteri";
 export const mdastLink = defineMdastPlugin({
     name: "link",
     link(node, ctx) {
-        if (node.url) {
+        if (!node.url) return;
+        try {
+            new URL(node.url);
+        } catch {
             const url = node.url
                 .trim()
                 .replace(/[\s$*_+~.()'"!\-:@]+/g, " ")
