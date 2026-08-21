@@ -29,6 +29,7 @@ export interface Translations {
         familyTree: string;
         familyTrees: string;
         parent: string;
+        referencedIn: string;
     };
     theme: {
         label: string;

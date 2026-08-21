@@ -14,6 +14,9 @@ export const mdastLink = defineMdastPlugin({
                 .replace(/\s+/g, "-")
                 .toLowerCase();
             ctx.setProperty(node, "url", url);
+
+            const frontmatter = ctx.data.astro.frontmatter;
+            (frontmatter.outgoingLinks ??= []).push(url);
         }
     },
 });

@@ -5,7 +5,7 @@ import {
     type CollectionEntry,
     type DataEntryMap,
 } from "astro:content";
-import { slugFromId, projectFromId } from "./content-utils";
+import { slugFromId, projectFromId, pushOrSet } from "./content-utils";
 import { CustomDate } from "./custom-date";
 import type { HistoricKind } from "./schema/codex-article";
 
@@ -79,6 +79,46 @@ export function buildArticleMap(
         }
     }
     return map;
+}
+
+/**
+ * Builds a reverse index of article body references: for each article,
+ * every other article whose body links to it (via links or some other
+ * directives), keyed by the target article's id.
+ * ```
+ * const backlinks = await buildBacklinkIndex(articles, buildArticleMap(articles));
+ * const referencedBy = backlinks.get(article.id) ?? [];
+ * ```
+ */
+export async function buildBacklinkIndex(
+    articles: CollectionEntry<"articles">[],
+    articleMap: Map<string, CollectionEntry<"articles">>,
+): Promise<Map<string, CollectionEntry<"articles">[]>> {
+    const index = new Map<string, CollectionEntry<"articles">[]>();
+
+    await Promise.all(
+        articles.map(async (article) => {
+            const projectId = projectFromId(article.id);
+            const { remarkPluginFrontmatter } = await render(article);
+            const outgoingLinks: string[] =
+                remarkPluginFrontmatter.outgoingLinks ?? [];
+
+            const targets = new Set(
+                outgoingLinks
+                    .map((slug) => articleMap.get(`${projectId}/${slug}`))
+                    .filter(
+                        (target): target is CollectionEntry<"articles"> =>
+                            !!target && target.id !== article.id,
+                    ),
+            );
+
+            for (const target of targets) {
+                pushOrSet(index, target.id, article);
+            }
+        }),
+    );
+
+    return index;
 }
 
 /**

@@ -25,9 +25,12 @@ export function reportMissingId(ctx, node, directiveName) {
  * Builds a `leafDirective` handler for directives of the form
  * `::name{#id}` that render as a single hast element referencing a slug,
  * optionally forwarding the directive's `label` under `labelProperty`.
+ *
+ * Pass `linksToArticle: true` for directives whose `id` points at another
+ * article, to record it in `frontmatter.outgoingLinks` for backlink lookup.
  */
 export function createSlugDirective(directiveName, hName, options = {}) {
-    const { slugProperty = "slug", labelProperty } = options;
+    const { slugProperty = "slug", labelProperty, linksToArticle } = options;
 
     return function leafDirective(node, ctx) {
         if (node.name !== directiveName) return;
@@ -49,5 +52,10 @@ export function createSlugDirective(directiveName, hName, options = {}) {
         data.hName = hName;
         data.hProperties = hProperties;
         ctx.setProperty(node, "data", data);
+
+        if (linksToArticle) {
+            const frontmatter = ctx.data.astro.frontmatter;
+            (frontmatter.outgoingLinks ??= []).push(id);
+        }
     };
 }

@@ -95,6 +95,22 @@ export function stripLink(value: string): string {
 }
 
 /**
+ * Appends `value` to the array stored at `key` in `map`, creating the
+ * array if this is the first entry for that key.
+ * ```
+ * const map = new Map<string, string[]>();
+ * pushOrSet(map, "a", "x");
+ * pushOrSet(map, "a", "y");
+ * console.log(map.get("a")); // ['x', 'y']
+ * ```
+ */
+export function pushOrSet<K, V>(map: Map<K, V[]>, key: K, value: V) {
+    const list = map.get(key);
+    if (list) list.push(value);
+    else map.set(key, [value]);
+}
+
+/**
  * Gets the image src for values that can be both remote urls and
  * local images.
  * ```

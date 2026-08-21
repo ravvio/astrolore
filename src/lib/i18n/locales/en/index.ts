@@ -30,6 +30,7 @@ export const en: Translations = {
         familyTree: "Family Tree",
         familyTrees: "Family Trees",
         parent: "Parent Article",
+        referencedIn: "Referenced In",
     },
     theme: {
         label: "Theme",

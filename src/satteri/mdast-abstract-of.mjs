@@ -11,5 +11,7 @@ export const mdastAbstractOf = defineMdastPlugin({
             reportUnexpectedForm(ctx, node, ":abstractOf");
         }
     },
-    leafDirective: createSlugDirective("abstractOf", "abstractof"),
+    leafDirective: createSlugDirective("abstractOf", "abstractof", {
+        linksToArticle: true,
+    }),
 });

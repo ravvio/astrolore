@@ -1,36 +1,41 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import ContentLayout from "../../../layouts/ContentLayout.astro";
-import { slugFromId, projectFromId, type Crumb } from "$lib/content-utils";
+import {
+    slugFromId,
+    projectFromId,
+    pushOrSet,
+    type Crumb,
+} from "$lib/content-utils";
 import { getEntry, render } from "astro:content";
 import Article from "$lib/components/content/Article.astro";
 import ContentHeading from "$lib/components/ContentHeading.astro";
 import * as Card from "$lib/components/ui/card/index.js";
 import PaginatedArticles from "$lib/components/paginated-articles.svelte";
 import ArticleMeta from "$lib/components/article-meta/ArticleMeta.astro";
-import { buildArticleMap, getProjectFromId } from "$lib/astro-content-utils";
+import {
+    buildArticleMap,
+    buildBacklinkIndex,
+    getProjectFromId,
+} from "$lib/astro-content-utils";
 import { getTranslations } from "$lib/i18n";
 
 export async function getStaticPaths() {
     const articles = await getCollection("articles");
 
     const articleMap = buildArticleMap(articles);
+    const backlinkIndex = await buildBacklinkIndex(articles, articleMap);
 
     const childrenOf = new Map<string, CollectionEntry<"articles">[]>();
     for (const article of articles) {
         if (!article.data.parent) continue;
         const key = `${projectFromId(article.id)}/${article.data.parent}`;
-        const list = childrenOf.get(key);
-        if (list) list.push(article);
-        else childrenOf.set(key, [article]);
+        pushOrSet(childrenOf, key, article);
     }
 
     const ofProject = new Map<string, CollectionEntry<"articles">[]>();
     for (const article of articles) {
-        const projectId = projectFromId(article.id);
-        const list = ofProject.get(projectId);
-        if (list) list.push(article);
-        else ofProject.set(projectId, [article]);
+        pushOrSet(ofProject, projectFromId(article.id), article);
     }
 
     return Promise.all(
@@ -44,6 +49,7 @@ export async function getStaticPaths() {
             const parentArticle = article.data.parent
                 ? articleMap.get(`${project.id}/${article.data.parent}`)
                 : undefined;
+            const backlinkArticles = backlinkIndex.get(article.id) ?? [];
 
             const category = article.data.category
                 ? await getEntry(
@@ -67,6 +73,7 @@ export async function getStaticPaths() {
                     article: article,
                     childrenArticles: childrenArticles ?? [],
                     parentArticle: parentArticle,
+                    backlinkArticles: backlinkArticles,
                 },
             };
         }),
@@ -80,6 +87,7 @@ const {
     articles,
     childrenArticles,
     parentArticle,
+    backlinkArticles,
 } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(article);
 const needsLeaflet = !!remarkPluginFrontmatter.hasMap;
@@ -111,7 +119,7 @@ const crumbs: Crumb[] = [
 >
     <ContentHeading slot="heading" id={slug}>
         {article.data.title}
-        <div slot="data">
+        <div slot="data" class="flex space-x-2">
             {
                 category && (
                     <span class="text-sm">
@@ -131,7 +139,7 @@ const crumbs: Crumb[] = [
                 parentArticle && (
                     <span class="text-sm">
                         <span class="text-foreground/80 font-semibold">
-                            {translations.common.parent}
+                            {translations.common.parent}:{" "}
                         </span>
                         <a
                             href={`/${parentArticle.id}`}
@@ -147,27 +155,46 @@ const crumbs: Crumb[] = [
 
     {
         article.data.meta?.type && (
-            <div class="mb-4 w-full lg:float-right lg:max-w-[360px] lg:px-4">
+            <div class="mb-4 w-full lg:float-right lg:max-w-[360px] lg:pl-4">
                 <ArticleMeta {project} {articles} {article} />
             </div>
         )
     }
 
     <Article {Content} />
-    {
-        childrenArticles.length > 0 && (
-            <Card.Root class="mt-8">
-                <Card.Header>
-                    <Card.Title>Articles</Card.Title>
-                </Card.Header>
-                <Card.Content>
-                    <PaginatedArticles
-                        {project}
-                        articles={childrenArticles}
-                        client:idle
-                    />
-                </Card.Content>
-            </Card.Root>
-        )
-    }
+
+    <div class="w-full flex flex-col gap-6 mt-12">
+        {
+            childrenArticles.length > 0 && (
+                <Card.Root class="lg:clear-right">
+                    <Card.Header>
+                        <Card.Title>Articles</Card.Title>
+                    </Card.Header>
+                    <Card.Content>
+                        <PaginatedArticles
+                            {project}
+                            articles={childrenArticles}
+                            client:idle
+                        />
+                    </Card.Content>
+                </Card.Root>
+            )
+        }
+        {
+            backlinkArticles.length > 0 && (
+                <Card.Root class="lg:clear-right">
+                    <Card.Header>
+                        <Card.Title>{translations.common.referencedIn}</Card.Title>
+                    </Card.Header>
+                    <Card.Content>
+                        <PaginatedArticles
+                            {project}
+                            articles={backlinkArticles}
+                            client:idle
+                        />
+                    </Card.Content>
+                </Card.Root>
+            )
+        }
+    </div>
 </ContentLayout>

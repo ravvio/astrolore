@@ -12,5 +12,5 @@ export const mdastGoto = defineMdastPlugin({
             reportUnexpectedForm(ctx, node, ":goto");
         }
     },
-    leafDirective: createSlugDirective("goto", "goto"),
+    leafDirective: createSlugDirective("goto", "goto", { linksToArticle: true }),
 });

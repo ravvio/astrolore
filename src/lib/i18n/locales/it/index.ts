@@ -30,6 +30,7 @@ export const it: Translations = {
         familyTree: "Albero Genealogico",
         familyTrees: "Alberi Genealogici",
         parent: "Articolo Genitore",
+        referencedIn: "Citato In",
     },
     theme: {
         label: "Tema",
