@@ -95,6 +95,27 @@ export function stripLink(value: string): string {
 }
 
 /**
+ * Collects every `(slug)`-style article reference out of a
+ * frontmatter value.
+ * ```
+ * collectFrontmatterRefs({ parents: ["(john)"], spouses: ["(jane)"] });
+ * // ['john', 'jane']
+ * ```
+ */
+export function collectFrontmatterRefs(value: unknown): string[] {
+    if (typeof value === "string") {
+        return isLink(value) ? [stripLink(value)] : [];
+    }
+    if (Array.isArray(value)) {
+        return value.flatMap(collectFrontmatterRefs);
+    }
+    if (value && typeof value === "object") {
+        return Object.values(value).flatMap(collectFrontmatterRefs);
+    }
+    return [];
+}
+
+/**
  * Appends `value` to the array stored at `key` in `map`, creating the
  * array if this is the first entry for that key.
  * ```

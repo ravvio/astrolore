@@ -30,6 +30,7 @@ export interface Translations {
         familyTrees: string;
         parent: string;
         referencedIn: string;
+        graph: string;
     };
     theme: {
         label: string;
@@ -40,9 +41,6 @@ export interface Translations {
     search: {
         placeholder: string;
         noResults: string;
-        categories: string;
-        articles: string;
-        documents: string;
     };
     meta: {
         types: {
@@ -55,6 +53,7 @@ export interface Translations {
             title: string;
             language: string;
             culture: string;
+            other: string;
         };
         kinds: {
             character: { divinity: string };

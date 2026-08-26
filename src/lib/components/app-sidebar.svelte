@@ -12,6 +12,7 @@
         TimelineIcon,
         DicesIcon,
         OrigamiIcon,
+        NetworkIcon,
     } from "@lucide/svelte";
     import { navigate } from "astro:transitions/client";
     import { Button } from "$lib/components/ui/button/index.js";
@@ -38,6 +39,8 @@
         projects: CollectionEntry<"projects">[];
         categories: CollectionItem[];
         articles: CollectionItem[];
+        timelines: CollectionItem[];
+        maps: CollectionItem[];
         documents: CollectionItem[];
         counts: ContentCounts;
         translations: Translations;
@@ -48,6 +51,8 @@
         projects,
         categories,
         articles,
+        timelines,
+        maps,
         documents,
         counts,
         translations,
@@ -66,30 +71,50 @@
         <Command.Input placeholder={translations.search.placeholder} />
         <Command.List>
             <Command.Empty>{translations.search.noResults}</Command.Empty>
-            <Command.Group heading={translations.search.categories}>
+            <Command.Group heading={translations.common.categories}>
                 {#each categories as category (category.id)}
                     <Command.Item
-                        value={category.id}
+                        value={category.label}
                         onSelect={() => handleSelect(category.id)}
                     >
                         {category.label}
                     </Command.Item>
                 {/each}
             </Command.Group>
-            <Command.Group heading={translations.search.articles}>
+            <Command.Group heading={translations.common.articles}>
                 {#each articles as article (article.id)}
                     <Command.Item
-                        value={slugFromId(article.id)}
+                        value={article.label}
                         onSelect={() => handleSelect(article.id)}
                     >
                         {article.label}
                     </Command.Item>
                 {/each}
             </Command.Group>
-            <Command.Group heading={translations.search.documents}>
+            <Command.Group heading={translations.common.maps}>
+                {#each maps as map (map.id)}
+                    <Command.Item
+                        value={map.label}
+                        onSelect={() => handleSelect(map.id)}
+                    >
+                        {map.label}
+                    </Command.Item>
+                {/each}
+            </Command.Group>
+            <Command.Group heading={translations.common.timelines}>
+                {#each timelines as timeline (timeline.id)}
+                    <Command.Item
+                        value={timeline.label}
+                        onSelect={() => handleSelect(timeline.id)}
+                    >
+                        {timeline.label}
+                    </Command.Item>
+                {/each}
+            </Command.Group>
+            <Command.Group heading={translations.common.documents}>
                 {#each documents as document (document.id)}
                     <Command.Item
-                        value={document.id}
+                        value={document.label}
                         onSelect={() => handleSelect(document.id)}
                     >
                         {document.label}
@@ -178,7 +203,7 @@
                     {#if counts.articles}
                         <Sidebar.MenuItem>
                             <Sidebar.MenuButton
-                                isActive={section === "articles" && !slug}
+                                isActive={(section === "articles" || section === "graph") && !slug}
                             >
                                 {#snippet child({ props })}
                                     <a
@@ -190,6 +215,13 @@
                                     </a>
                                 {/snippet}
                             </Sidebar.MenuButton>
+                            <Sidebar.MenuAction>
+                                {#snippet child({ props })}
+                                    <a href={`/${project.id}/graph`} {...props}>
+                                        <NetworkIcon />
+                                    </a>
+                                {/snippet}
+                            </Sidebar.MenuAction>
                         </Sidebar.MenuItem>
                     {/if}
 

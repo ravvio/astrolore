@@ -10,14 +10,16 @@ import {
 import { getProjectCollections } from "$lib/astro-content-utils";
 import type { CollectionEntry } from "astro:content";
 import { getTranslations } from "$lib/i18n";
+import { cn } from "$lib/utils";
 
 type Props = {
     title: string;
     crumbs: Crumb[];
     project?: CollectionEntry<"projects">;
     needsLeaflet?: boolean;
+    fullScreen?: boolean;
 };
-const { title, crumbs, project, needsLeaflet }: Props = Astro.props;
+const { title, crumbs, project, needsLeaflet, fullScreen }: Props = Astro.props;
 
 const pathname = Astro.url.pathname;
 
@@ -40,6 +42,14 @@ const categoryItems: CollectionItem[] = categories.map((c) => ({
 const articleItems: CollectionItem[] = articles.map((a) => ({
     id: a.id,
     label: a.data.title,
+}));
+const timelineItems: CollectionItem[] = timelines.map((t) => ({
+    id: t.id,
+    label: t.data.name ?? t.id,
+}));
+const mapItems: CollectionItem[] = maps.map((m) => ({
+    id: m.id,
+    label: m.data.name ?? m.id,
 }));
 const documentItems: CollectionItem[] = documents.map((d) => ({
     id: d.id,
@@ -122,6 +132,8 @@ const translations = getTranslations(project?.data.language);
             {projects}
             categories={categoryItems}
             articles={articleItems}
+            maps={mapItems}
+            timelines={timelineItems}
             documents={documentItems}
             {counts}
             {crumbs}
@@ -129,7 +141,9 @@ const translations = getTranslations(project?.data.language);
             {translations}
             client:idle
         >
-            <div class="container my-8">
+            <div
+                class={fullScreen ? "h-[calc(100dvh-45px)]" : "container my-8"}
+            >
                 <slot />
             </div>
         </AppLayout>

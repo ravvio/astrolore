@@ -1,12 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "../../../layouts/Layout.astro";
-import PaginatedArticlesSearch from "$lib/components/paginated-articles-search.svelte";
+import Layout from "../../layouts/Layout.astro";
 import PageTitle from "$lib/components/PageTitle.astro";
+import ArticlesGraph from "$lib/components/graph/ArticlesGraph.astro";
 import { projectFromId, type Crumb } from "$lib/content-utils";
 import { getTranslations } from "$lib/i18n";
-import { Button } from "$lib/components/ui/button/index.js";
-import { NetworkIcon } from "@lucide/svelte";
 
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
@@ -22,9 +20,12 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-
 const articles = await getCollection(
     "articles",
+    ({ id }) => projectFromId(id) === project.id,
+);
+const categories = await getCollection(
+    "categories",
     ({ id }) => projectFromId(id) === project.id,
 );
 
@@ -35,29 +36,17 @@ const crumbs: Crumb[] = [
         href: `/${project.id}`,
     },
     {
-        label: translations.common.articles,
-        href: `/${project.id}/articles`,
+        label: translations.common.graph,
+        href: `/${project.id}/graph`,
     },
 ];
 ---
 
 <Layout
-    title={`${project.data.title} - ${translations.common.articles}`}
+    title={`${project.data.title} - ${translations.common.graph}`}
     {crumbs}
     {project}
+    fullScreen={true}
 >
-    <div class="flex flex-row items-center justify-between">
-        <PageTitle>{translations.common.articles}</PageTitle>
-        <Button href={`/${project.id}/graph`} variant="link">
-            <NetworkIcon />
-            {translations.common.graph}
-        </Button>
-    </div>
-    <PaginatedArticlesSearch
-        {project}
-        {articles}
-        perPage={30}
-        placeholder={translations.search.placeholder}
-        client:idle
-    />
+    <ArticlesGraph {project} {articles} {categories} class="h-full w-full" />
 </Layout>

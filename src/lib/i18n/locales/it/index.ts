@@ -31,6 +31,7 @@ export const it: Translations = {
         familyTrees: "Alberi Genealogici",
         parent: "Articolo Genitore",
         referencedIn: "Citato In",
+        graph: "Grafo",
     },
     theme: {
         label: "Tema",
@@ -56,6 +57,7 @@ export const it: Translations = {
             title: "Titolo",
             language: "Lingua",
             culture: "Cultura",
+            other: "Altro",
         },
         kinds: {
             character: { divinity: "Divinità" },

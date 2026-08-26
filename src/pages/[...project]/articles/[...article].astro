@@ -163,7 +163,7 @@ const crumbs: Crumb[] = [
 
     <Article {Content} />
 
-    <div class="w-full flex flex-col gap-6 mt-12">
+    <div class="mt-12 flex w-full flex-col gap-6">
         {
             childrenArticles.length > 0 && (
                 <Card.Root class="lg:clear-right">
@@ -184,7 +184,9 @@ const crumbs: Crumb[] = [
             backlinkArticles.length > 0 && (
                 <Card.Root class="lg:clear-right">
                     <Card.Header>
-                        <Card.Title>{translations.common.referencedIn}</Card.Title>
+                        <Card.Title>
+                            {translations.common.referencedIn}
+                        </Card.Title>
                     </Card.Header>
                     <Card.Content>
                         <PaginatedArticles

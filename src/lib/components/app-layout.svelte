@@ -12,6 +12,8 @@
         projects: CollectionEntry<"projects">[];
         categories: CollectionItem[];
         articles: CollectionItem[];
+        timelines: CollectionItem[];
+        maps: CollectionItem[];
         documents: CollectionItem[];
         counts: ContentCounts;
         crumbs: Crumb[];
@@ -24,6 +26,8 @@
         projects,
         categories,
         articles,
+        timelines,
+        maps,
         documents,
         counts,
         crumbs,
@@ -41,6 +45,8 @@
         {projects}
         {categories}
         {articles}
+        {timelines}
+        {maps}
         {documents}
         {counts}
         {pathname}

@@ -5,7 +5,12 @@ import {
     type CollectionEntry,
     type DataEntryMap,
 } from "astro:content";
-import { slugFromId, projectFromId, pushOrSet } from "./content-utils";
+import {
+    slugFromId,
+    projectFromId,
+    pushOrSet,
+    collectFrontmatterRefs,
+} from "./content-utils";
 import { CustomDate } from "./custom-date";
 import type { HistoricKind } from "./schema/codex-article";
 
@@ -82,9 +87,8 @@ export function buildArticleMap(
 }
 
 /**
- * Builds a reverse index of article body references: for each article,
- * every other article whose body links to it (via links or some other
- * directives), keyed by the target article's id.
+ * Builds a reverse index of article references: for each article, every
+ * other article that links to it.
  * ```
  * const backlinks = await buildBacklinkIndex(articles, buildArticleMap(articles));
  * const referencedBy = backlinks.get(article.id) ?? [];
@@ -94,7 +98,7 @@ export async function buildBacklinkIndex(
     articles: CollectionEntry<"articles">[],
     articleMap: Map<string, CollectionEntry<"articles">>,
 ): Promise<Map<string, CollectionEntry<"articles">[]>> {
-    const index = new Map<string, CollectionEntry<"articles">[]>();
+    const backlinks = new Map<string, CollectionEntry<"articles">[]>();
 
     await Promise.all(
         articles.map(async (article) => {
@@ -102,9 +106,9 @@ export async function buildBacklinkIndex(
             const { remarkPluginFrontmatter } = await render(article);
             const outgoingLinks: string[] =
                 remarkPluginFrontmatter.outgoingLinks ?? [];
-
+            const frontmatterRefs = collectFrontmatterRefs(article.data.meta);
             const targets = new Set(
-                outgoingLinks
+                [...outgoingLinks, ...frontmatterRefs]
                     .map((slug) => articleMap.get(`${projectId}/${slug}`))
                     .filter(
                         (target): target is CollectionEntry<"articles"> =>
@@ -113,12 +117,12 @@ export async function buildBacklinkIndex(
             );
 
             for (const target of targets) {
-                pushOrSet(index, target.id, article);
+                pushOrSet(backlinks, target.id, article);
             }
         }),
     );
 
-    return index;
+    return backlinks;
 }
 
 /**
